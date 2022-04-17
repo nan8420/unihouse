@@ -15,11 +15,14 @@ import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
 import DismissKeyboardView from '../components/DismissKeyboardView';
 import useInput from '../hooks/useInput';
+import {login} from '../actions/user';
+import {useAppDispatch} from '../store';
 
 const SignUp = () => {
   const canNext = true;
-
+  const dispatch = useAppDispatch();
   const [email, onChangeEmail] = useInput('');
+
   const [password, onChangePassword] = useInput('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordError, setPassworError] = useState(false);
@@ -41,6 +44,43 @@ const SignUp = () => {
     },
     [password],
   );
+
+  const onSubmit = useCallback(async () => {
+    if (!email || !email.trim()) {
+      return Alert.alert('알림', '이메일을 입력하세요');
+    }
+    if (
+      !/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
+        email,
+      )
+    ) {
+      return Alert.alert('알림', '올바른 이메일 주소가 아닙니다.');
+    }
+    if (!password || !password.trim()) {
+      return Alert.alert('알림', '비밀번호를 입력해주세요.');
+    }
+    if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@^!%*#?&]).{8,50}$/.test(password)) {
+      return Alert.alert(
+        '알림',
+        '비밀번호는 영문,숫자,특수문자($@^!%*#?&)를 모두 포함하여 8자 이상 입력해야합니다.',
+      );
+    }
+    if (password !== passwordCheck) {
+      console.log('비밀번호 틀림');
+      return setPassworError(true);
+    }
+    if (!nickname || nickname.trim()) {
+      return Alert.alert('알림', '닉네임을 입력하세요');
+    }
+
+    console.log('비밀번호 맞음');
+    // dispatch(login({}: String));
+  }, [email, password, passwordCheck, nickname, dispatch]);
+
+  const hi = useCallback(() => {
+    dispatch(login({email: 'as'}));
+  }, [dispatch, email]);
+
   return (
     <DismissKeyboardView>
       <View style={styles.MainWrapper}>
@@ -99,6 +139,7 @@ const SignUp = () => {
             onSubmitEditing={() => nicknameRef.current?.focus()}
             blurOnSubmit={false}
           />
+          {passwordError && <Text>비밀번호가 일치하지 않습니다.</Text>}
         </View>
         <View style={styles.inputWrapper}>
           <Text style={styles.text}>닉네임</Text>
@@ -119,7 +160,8 @@ const SignUp = () => {
               canNext
                 ? StyleSheet.compose(styles.SignButton, styles.SignButtonActive)
                 : styles.SignButton
-            }>
+            }
+            onPress={hi}>
             <Text style={styles.SignButtonText}>회원가입</Text>
           </Pressable>
         </View>
