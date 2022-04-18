@@ -3,8 +3,9 @@ const bcrypt = require("bcrypt");
 
 const router = express.Router();
 
-router.post("/", async (req, res, next) => {
+router.post("/login", async (req, res, next) => {
   console.log("/user!!!!");
+  console.log("req.body:", req.body);
 });
 
 module.exports = router;

@@ -34,9 +34,6 @@ const SignUp = () => {
   const passwordCheckRef = useRef<TextInput | null>(null);
   const nicknameRef = useRef<TextInput | null>(null);
 
-  console.log('password:', password);
-  console.log('passwordcheck:', passwordCheck);
-  console.log('passwordError:', passwordError);
   const onChangePasswordCheck = useCallback(
     text => {
       setPassworError(text !== password);
@@ -74,12 +71,13 @@ const SignUp = () => {
     }
 
     console.log('비밀번호 맞음');
-    // dispatch(login({}: String));
+
+    dispatch(login({email, password, nickname}));
   }, [email, password, passwordCheck, nickname, dispatch]);
 
-  const hi = useCallback(() => {
-    dispatch(login({email: 'as'}));
-  }, [dispatch, email]);
+  // const hi = useCallback(() => {
+  //   dispatch(login({email: 'as'}));
+  // }, [dispatch, email]);
 
   return (
     <DismissKeyboardView>
@@ -161,7 +159,7 @@ const SignUp = () => {
                 ? StyleSheet.compose(styles.SignButton, styles.SignButtonActive)
                 : styles.SignButton
             }
-            onPress={hi}>
+            onPress={onSubmit}>
             <Text style={styles.SignButtonText}>회원가입</Text>
           </Pressable>
         </View>
