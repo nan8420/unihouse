@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -15,8 +15,10 @@ import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
 import DismissKeyboardView from '../components/DismissKeyboardView';
 import useInput from '../hooks/useInput';
-import {login} from '../actions/user';
+import {login, signup} from '../actions/user';
 import {useAppDispatch} from '../store';
+import {useSelector} from 'react-redux';
+import {RootState} from '../reducer';
 
 const SignUp = () => {
   const canNext = true;
@@ -34,6 +36,16 @@ const SignUp = () => {
   const passwordCheckRef = useRef<TextInput | null>(null);
   const nicknameRef = useRef<TextInput | null>(null);
 
+  const {signupError} = useSelector((state: RootState) => state.user);
+
+  console.log('signupError:', signupError);
+
+  useEffect(() => {
+    if (signupError) {
+      return Alert.alert('알림', signupError);
+    }
+  }, [signupError]);
+
   const onChangePasswordCheck = useCallback(
     text => {
       setPassworError(text !== password);
@@ -41,7 +53,7 @@ const SignUp = () => {
     },
     [password],
   );
-
+  console.log('nickname:', nickname);
   const onSubmit = useCallback(async () => {
     if (!email || !email.trim()) {
       return Alert.alert('알림', '이메일을 입력하세요');
@@ -66,18 +78,14 @@ const SignUp = () => {
       console.log('비밀번호 틀림');
       return setPassworError(true);
     }
-    if (!nickname || nickname.trim()) {
+    if (!nickname) {
       return Alert.alert('알림', '닉네임을 입력하세요');
     }
 
     console.log('비밀번호 맞음');
 
-    dispatch(login({email, password, nickname}));
+    dispatch(signup({email, password, nickname}));
   }, [email, password, passwordCheck, nickname, dispatch]);
-
-  // const hi = useCallback(() => {
-  //   dispatch(login({email: 'as'}));
-  // }, [dispatch, email]);
 
   return (
     <DismissKeyboardView>
