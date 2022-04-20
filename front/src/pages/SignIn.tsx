@@ -15,46 +15,39 @@ import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
 import DismissKeyboardView from '../components/DismissKeyboardView';
 import useInput from '../hooks/useInput';
-import {signup} from '../actions/user';
+import {login} from '../actions/user';
 import {useAppDispatch} from '../store';
 import {useSelector} from 'react-redux';
 import {RootState} from '../reducer';
+import {RootStackParamList} from '../../AppInner';
 
-const SignUp = () => {
+// type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
+
+const SignIn = () => {
   const dispatch = useAppDispatch();
+
   const [email, onChangeEmail] = useInput('');
-
   const [password, onChangePassword] = useInput('');
-  const [passwordCheck, setPasswordCheck] = useState('');
-  const [passwordError, setPassworError] = useState(false);
-
-  const [nickname, onChangeNickname] = useInput('');
 
   const emailRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
   const passwordCheckRef = useRef<TextInput | null>(null);
-  const nicknameRef = useRef<TextInput | null>(null);
-
-  const {signupError} = useSelector((state: RootState) => state.user);
 
   const canNext = true;
 
-  console.log('signupError:', signupError);
+  // useEffect(() => {
+  //   if (signupError) {
+  //     return Alert.alert('알림', signupError);
+  //   }
+  // }, [signupError]);
 
-  useEffect(() => {
-    if (signupError) {
-      return Alert.alert('알림', signupError);
-    }
-  }, [signupError]);
-
-  const onChangePasswordCheck = useCallback(
-    text => {
-      setPassworError(text !== password);
-      setPasswordCheck(text.trim());
-    },
-    [password],
-  );
-  console.log('nickname:', nickname);
+  // const onChangePasswordCheck = useCallback(
+  //   text => {
+  //     setPassworError(text !== password);
+  //     setPasswordCheck(text.trim());
+  //   },
+  //   [password],
+  // );
   const onSubmit = useCallback(async () => {
     if (!email || !email.trim()) {
       return Alert.alert('알림', '이메일을 입력하세요');
@@ -69,24 +62,9 @@ const SignUp = () => {
     if (!password || !password.trim()) {
       return Alert.alert('알림', '비밀번호를 입력해주세요.');
     }
-    if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@^!%*#?&]).{8,50}$/.test(password)) {
-      return Alert.alert(
-        '알림',
-        '비밀번호는 영문,숫자,특수문자($@^!%*#?&)를 모두 포함하여 8자 이상 입력해야합니다.',
-      );
-    }
-    if (password !== passwordCheck) {
-      console.log('비밀번호 틀림');
-      return setPassworError(true);
-    }
-    if (!nickname) {
-      return Alert.alert('알림', '닉네임을 입력하세요');
-    }
 
-    console.log('비밀번호 맞음');
-
-    dispatch(signup({email, password, nickname}));
-  }, [email, password, passwordCheck, nickname, dispatch]);
+    dispatch(login({email, password}));
+  }, [email, password, dispatch]);
 
   return (
     <DismissKeyboardView>
@@ -128,39 +106,6 @@ const SignUp = () => {
           />
         </View>
 
-        <View style={styles.inputWrapper2}>
-          <TextInput
-            style={styles.textInput}
-            placeholder="비밀번호 확인 "
-            placeholderTextColor="#666"
-            textContentType="password"
-            secureTextEntry
-            keyboardType={
-              Platform.OS === 'android' ? 'default' : 'ascii-capable'
-            }
-            onChangeText={onChangePasswordCheck}
-            value={passwordCheck}
-            returnKeyType="next"
-            clearButtonMode="while-editing"
-            ref={passwordCheckRef}
-            onSubmitEditing={() => nicknameRef.current?.focus()}
-            blurOnSubmit={false}
-          />
-          {passwordError && <Text>비밀번호가 일치하지 않습니다.</Text>}
-        </View>
-        <View style={styles.inputWrapper}>
-          <Text style={styles.text}>닉네임</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="닉네임을 입력해 주세요"
-            placeholderTextColor="#666"
-            onChangeText={onChangeNickname}
-            value={nickname}
-            returnKeyType="next"
-            clearButtonMode="while-editing"
-            ref={nicknameRef}
-          />
-        </View>
         <View style={styles.button}>
           <Pressable
             style={
@@ -169,7 +114,7 @@ const SignUp = () => {
                 : styles.SignButton
             }
             onPress={onSubmit}>
-            <Text style={styles.SignButtonText}>회원가입</Text>
+            <Text style={styles.SignButtonText}>로그인</Text>
           </Pressable>
         </View>
       </View>
@@ -230,4 +175,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
+export default SignIn;

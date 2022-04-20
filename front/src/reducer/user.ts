@@ -1,10 +1,11 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {login, signup} from '../actions/user';
 
-export const initialState = {
+const initialState = {
   signupLoading: false, // 회원가입 시도중
   signupDone: false,
   signupError: null,
+  accessToken: '',
 
   me: null,
   userInfo: null,
@@ -17,7 +18,14 @@ export const initialState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    setAccessToken(state, action) {
+      state.accessToken = action.payload;
+    },
+    addPostToMe(state: any, action) {
+      state.me.Posts.unshift({id: action.payload});
+    },
+  },
   extraReducers: builder =>
     builder
 
@@ -43,13 +51,15 @@ const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loginLoading = false;
-        state.me = action.payload;
+        state.me = action.payload.user;
+        state.accessToken = action.payload.accessToken;
         state.loginDone = true;
       })
-      .addCase(login.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(login.rejected, (state, action: any) => {
         state.loginLoading = false;
         state.loginError = action.payload;
-      }),
+      })
+      .addDefaultCase(state => state),
 });
 
 export default userSlice;

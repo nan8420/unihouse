@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import userSlice from '../slices/user';
+import userSlice from './user';
 const rootReducer = combineReducers({
   user: userSlice.reducer,
   // order: orderSlice.reducer,

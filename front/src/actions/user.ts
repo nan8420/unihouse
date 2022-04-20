@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 import Config from 'react-native-config';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 axios.defaults.baseURL = Config.API_URL;
 
@@ -20,11 +21,14 @@ export const login = createAsyncThunk(
   'user/login',
   async (data: Object, {rejectWithValue}) => {
     try {
-      console.log('data::::', data);
       const response = await axios.post('/user/login', data);
+      await EncryptedStorage.setItem(
+        'refreshToken',
+        response.data.refreshToken,
+      );
       return response.data;
-    } catch (error) {
-      // return rejectWithValue(error.response.data);
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
     }
   },
 );
