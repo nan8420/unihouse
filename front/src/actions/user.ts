@@ -5,6 +5,12 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 axios.defaults.baseURL = Config.API_URL;
 
+export const loadMyInfo = createAsyncThunk('user/loadMyInfo', async () => {
+  console.log('???????????????????????');
+  const response = await axios.get('/user/loadMyinfo');
+  return response.data;
+});
+
 export const signup = createAsyncThunk(
   'user/signup',
   async (data: Object, {rejectWithValue}) => {
@@ -22,6 +28,7 @@ export const login = createAsyncThunk(
   async (data: Object, {rejectWithValue}) => {
     try {
       const response = await axios.post('/user/login', data);
+      await EncryptedStorage.setItem('accessToken', response.data.accessToken);
       await EncryptedStorage.setItem(
         'refreshToken',
         response.data.refreshToken,

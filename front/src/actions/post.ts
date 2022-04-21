@@ -7,14 +7,15 @@ import userSlice from '../reducer/user';
 axios.defaults.baseURL = Config.API_URL;
 
 export const addPost = createAsyncThunk(
-  'user/addPost',
+  'post/addPost',
   async (data: any, thunkAPI) => {
     try {
-      console.log('data:::', data);
-      const response = await axios.post('/user/addPost', data, {
-        headers: {authorization: `Bearer ${data.accessToken}`},
-      });
-      console.log('response:::', response);
+      // console.log('data:::', data);
+      const response = await axios.post('/post/addPost', data);
+      // const response = await axios.post('/user/addPost', data, {
+      //   headers: {authorization: `Bearer ${data.accessToken}`},
+      // });
+      // console.log('response:::', response);
       thunkAPI.dispatch(userSlice.actions.addPostToMe(response.data.id));
       return response.data;
     } catch (error: any) {

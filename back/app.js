@@ -7,6 +7,7 @@ const multer = require("multer");
 const dotenv = require("dotenv");
 const db = require("./models");
 const userRouter = require("./routes/user");
+const postRouter = require("./routes/post");
 
 dotenv.config();
 
@@ -32,3 +33,4 @@ app.listen(3105, () => {
 });
 
 app.use("/user", userRouter);
+app.use("/post", postRouter);

@@ -17,15 +17,21 @@ import {RootState} from '../reducer/index';
 
 const Hey = () => {
   const dispatch = useAppDispatch();
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  // const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   const [post, setPost] = useState('');
 
   const func = useCallback(() => {
     // console.log('func');
 
-    dispatch(addPost({post, accessToken}));
-  }, [post, accessToken, dispatch]);
+    dispatch(addPost({post}));
+  }, [post, dispatch]);
+
+  // const func = useCallback(() => {
+  //   // console.log('func');
+
+  //   dispatch(addPost({post, accessToken}));
+  // }, [post, accessToken, dispatch]);
 
   const onPost = useCallback(text => {
     setPost(text);

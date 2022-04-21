@@ -1,11 +1,11 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {login, signup} from '../actions/user';
+import {login, signup, loadMyInfo} from '../actions/user';
 
 const initialState = {
   signupLoading: false, // 회원가입 시도중
   signupDone: false,
   signupError: null,
-  accessToken: '',
+  // accessToken: '',
 
   me: null,
   userInfo: null,
@@ -13,17 +13,24 @@ const initialState = {
   loginLoading: false, // 로그인 시도중
   loginDone: false,
   loginError: null,
+
+  loadMyInfoLoading: false, // 로그인 정보 조회
+  loadMyInfoDone: false,
+  loadMyInfoError: null,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setAccessToken(state, action) {
-      state.accessToken = action.payload;
-    },
+    // setAccessToken(state, action) {
+    //   state.accessToken = action.payload;
+    // },
     addPostToMe(state: any, action) {
       state.me.Posts.unshift({id: action.payload});
+    },
+    reMoveme(state) {
+      state.me = null;
     },
   },
   extraReducers: builder =>
@@ -44,6 +51,7 @@ const userSlice = createSlice({
         state.signupError = action.payload;
       })
 
+      //login
       .addCase(login.pending, state => {
         state.loginLoading = true;
         state.loginDone = false;
@@ -52,12 +60,28 @@ const userSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loginLoading = false;
         state.me = action.payload.user;
-        state.accessToken = action.payload.accessToken;
+        // state.accessToken = action.payload.accessToken;
         state.loginDone = true;
       })
       .addCase(login.rejected, (state, action: any) => {
         state.loginLoading = false;
         state.loginError = action.payload;
+      })
+
+      // loadMyInfo
+      .addCase(loadMyInfo.pending, state => {
+        state.loadMyInfoLoading = true;
+        state.loadMyInfoDone = false;
+        state.loadMyInfoError = null;
+      })
+      .addCase(loadMyInfo.fulfilled, (state, action) => {
+        state.loadMyInfoLoading = false;
+        state.loadMyInfoDone = true;
+        state.me = action.payload;
+      })
+      .addCase(loadMyInfo.rejected, (state, action: any) => {
+        state.loadMyInfoLoading = false;
+        state.loadMyInfoError = action.payload;
       })
       .addDefaultCase(state => state),
 });

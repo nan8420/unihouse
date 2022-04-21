@@ -3,60 +3,92 @@ const bcrypt = require("bcrypt");
 const { User, Post, Image, Comment, Notification } = require("../models");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const jwtSecret = "JWT_SECRET";
+const { verifyToken, verifyRefreshToken } = require("./middlewares");
 
-const verifyToken = (req, res, next) => {
-  if (!req.headers.authorization) {
-    console.log("토근없음");
-    return res.status(401).json({ message: "토큰이 없습니다." });
-  }
-  try {
-    const data = jwt.verify(
-      req.headers.authorization.replace("Bearer ", ""),
-      jwtSecret
-    );
-    console.log("data!!!!", data);
-    req.userid = data.userId;
-    // res.locals.userid = data.userId;
-    res.locals.email = data.email;
-    console.log("-----------------------");
-  } catch (error) {
-    console.error(error);
-    if (error.name === "TokenExpiredError") {
-      return res
-        .status(419)
-        .json({ message: "만료된 액세스 토큰입니다.", code: "expired" });
-    }
-    return res
-      .status(401)
-      .json({ message: "유효하지 않은 액세스 토큰입니다." });
-  }
-  next();
-};
+// const jwtSecret = "JWT_SECRET";
 
-const verifyRefreshToken = (req, res, next) => {
-  if (!req.headers.authorization) {
-    return res.status(401).json({ message: "토큰이 없습니다." });
+// const verifyToken = (req, res, next) => {
+//   if (!req.headers.authorization) {
+//     return res.status(401).json({ message: "토큰이 없습니다." });
+//   }
+//   try {
+//     // console.log(" 엑세스  req.headers:", req.headers);
+
+//     const data = jwt.verify(
+//       req.headers.authorization.replace("Bearer ", ""),
+//       jwtSecret
+//     );
+//     req.userid = data.userId;
+//     // res.locals.userid = data.userId;
+//     res.locals.email = data.email;
+//   } catch (error) {
+//     console.error(error);
+//     if (error.name === "TokenExpiredError") {
+//       return res
+//         .status(419)
+//         .json({ message: "만료된 액세스 토큰입니다.", code: "expired" });
+//     }
+//     return res
+//       .status(401)
+//       .json({ message: "유효하지 않은 액세스 토큰입니다." });
+//   }
+//   next();
+// };
+
+// const verifyRefreshToken = (req, res, next) => {
+//   if (!req.headers.authorization) {
+//     return res.status(401).json({ message: "토큰이 없습니다." });
+//   }
+//   try {
+//     // console.log("22222222222222222");
+//     console.log(" 리프레시  req.headers:", req.headers);
+
+//     const data = jwt.verify(
+//       req.headers.authorization.replace("Bearer ", ""),
+//       jwtSecret
+//     );
+//     req.userid = data.userId;
+//     res.locals.email = data.email;
+//   } catch (error) {
+//     console.error(error);
+//     if (error.name === "TokenExpiredError") {
+//       console.log("리프레시토근 만료");
+//       return res
+//         .status(420)
+//         .json({ message: "만료된 리프레시 토큰입니다.", code: "expired" });
+//     }
+//     return res
+//       .status(401)
+//       .json({ message: "유효하지 않은 리프레시 토큰입니다." });
+//   }
+//   next();
+// };
+
+router.post("/refreshToken", verifyRefreshToken, async (req, res, next) => {
+  const accessToken = jwt.sign(
+    { sub: "access", email: res.locals.email, userId: req.userid },
+
+    process.env.ACCESS_TOKEN_SECRET,
+    // jwtSecret,
+    // { expiresIn: "5m" }
+    { expiresIn: "30s" }
+  );
+
+  const user = await User.findOne({
+    where: { email: res.locals.email },
+  });
+
+  if (!user) {
+    return res.status(404).json({ message: "가입되지 않은 회원입니다." });
   }
-  try {
-    const data = jwt.verify(
-      req.headers.authorization.replace("Bearer ", ""),
-      jwtSecret
-    );
-    res.locals.email = data.email;
-  } catch (error) {
-    console.error(error);
-    if (error.name === "TokenExpiredError") {
-      return res
-        .status(420)
-        .json({ message: "만료된 리프레시 토큰입니다.", code: "expired" });
-    }
-    return res
-      .status(401)
-      .json({ message: "유효하지 않은 리프레시 토큰입니다." });
-  }
-  next();
-};
+  res.json({
+    data: {
+      accessToken,
+      email: res.locals.email,
+      // name: users[res.locals.email].name,
+    },
+  });
+});
 
 router.post(
   "/refreshRefreshToken",
@@ -64,8 +96,10 @@ router.post(
   async (req, res, next) => {
     const refreshToken = jwt.sign(
       //추가한 부분
-      { sub: "refresh", email: res.locals.email, userId: user.id },
-      jwtSecret,
+      { sub: "refresh", email: res.locals.email, userId: req.userid },
+      process.env.REFRESH_TOKEN_SECRET,
+      // jwtSecret,
+      // { expiresIn: "60s" }
       { expiresIn: "24h" }
     );
 
@@ -91,6 +125,7 @@ router.post(
 );
 
 router.post("/login", async (req, res, next) => {
+  // console.log("req.headers:::", req.headers);
   const user = await User.findOne({
     where: { email: req.body.email },
   });
@@ -107,16 +142,20 @@ router.post("/login", async (req, res, next) => {
 
   const accessToken = jwt.sign(
     { sub: "access", email: req.body.email, userId: user.id },
-    jwtSecret,
+    process.env.ACCESS_TOKEN_SECRET,
+    // jwtSecret,
     // { expiresIn: "5m" }
-    { expiresIn: "60s" }
+    { expiresIn: "30s" }
   );
-
+  // console.log("accessToken:", accessToken);
   const refreshToken = jwt.sign(
     { sub: "refresh", email: req.body.email, userId: user.id },
-    jwtSecret,
+    process.env.REFRESH_TOKEN_SECRET,
+    // jwtSecret,
     { expiresIn: "24h" }
+    // { expiresIn: "60s" }
   );
+  console.log("refreshToken:", refreshToken);
 
   const fulluser = await User.findOne({
     where: { id: user.id },
@@ -163,42 +202,66 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
-router.post("/addpost", verifyToken, async (req, res, next) => {
-  try {
-    console.log("req.body:", req.body);
-    console.log("req.userid::::", req.userid);
-    const post = await Post.create({
-      content: req.body.post,
-      UserId: req.userid,
-    });
+// router.post("/addpost", verifyToken, async (req, res, next) => {
+//   try {
+//     const post = await Post.create({
+//       content: req.body.post,
+//       UserId: req.userid,
+//     });
 
-    const fullPost = await Post.findOne({
-      where: { id: post.id },
-      include: [
-        {
-          model: Image,
+//     const fullPost = await Post.findOne({
+//       where: { id: post.id },
+//       include: [
+//         {
+//           model: Image,
+//         },
+//         {
+//           model: Comment,
+//           include: [
+//             {
+//               model: User, // 댓글 작성자
+//               attributes: ["id", "nickname"],
+//             },
+//           ],
+//         },
+//         {
+//           model: User, // 게시글 작성자
+//           attributes: ["id", "nickname"],
+//         },
+//         {
+//           model: User, // 좋아요 누른 사람
+//           as: "Likers",
+//           attributes: ["id"],
+//         },
+//       ],
+//     });
+//     res.status(201).json(fullPost);
+//   } catch (error) {
+//     console.error(error);
+//     next(error);
+//   }
+// });
+
+router.get("/loadMyInfo", verifyToken, async (req, res, next) => {
+  // GET /user/loadMyInfo
+  try {
+    if (req.userid) {
+      const fullUserWithoutPassword = await User.findOne({
+        where: { id: req.userid },
+        attributes: {
+          exclude: ["password"],
         },
-        {
-          model: Comment,
-          include: [
-            {
-              model: User, // 댓글 작성자
-              attributes: ["id", "nickname"],
-            },
-          ],
-        },
-        {
-          model: User, // 게시글 작성자
-          attributes: ["id", "nickname"],
-        },
-        {
-          model: User, // 좋아요 누른 사람
-          as: "Likers",
-          attributes: ["id"],
-        },
-      ],
-    });
-    res.status(201).json(fullPost);
+        include: [
+          {
+            model: Post,
+            attributes: ["id"],
+          },
+        ],
+      });
+      res.status(200).json(fullUserWithoutPassword);
+    } else {
+      res.status(200).json(null);
+    }
   } catch (error) {
     console.error(error);
     next(error);
