@@ -6,8 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="ac5e1340-ad9c-461c-8f99-23ed3a12a0b5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/models/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/../back/models/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../back/routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/../back/routes/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/AppInner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/AppInner.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../front/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../front/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/components/DismissKeyboardView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/components/DismissKeyboardView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/pages/SignIn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/SignIn.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/pages/SignUp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/SignUp.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

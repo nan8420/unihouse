@@ -13,11 +13,15 @@ module.exports = class User extends Model {
         },
         nickname: {
           type: DataTypes.STRING(30),
-          allowNull: true, // 필수
+          allowNull: false, // 필수
+        },
+        univ: {
+          type: DataTypes.STRING(30),
+          allowNull: false, // 필수
         },
         password: {
           type: DataTypes.STRING(100),
-          allowNull: true,
+          allowNull: false,
         },
       },
       {

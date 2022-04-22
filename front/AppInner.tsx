@@ -12,10 +12,19 @@ import Config from 'react-native-config';
 import SignUp from './src/pages/SignUp';
 import SignIn from './src/pages/SignIn';
 import Hey from './src/pages/Hey';
+import MainPage from './src/pages/MainPage';
 import {useAppDispatch} from './src/store';
 import {RootState} from './src/reducer/index';
 import userSlice from './src/reducer/user';
 import {loadMyInfo} from './src/actions/user';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+export type LoggedInParamList = {
+  MainPage: undefined;
+
+  // Complete: {orderId: string};
+};
 
 export type RootStackParamList = {
   SignIn: undefined;
@@ -33,12 +42,10 @@ const AppInnger = () => {
       try {
         console.log('처음시작!!!!!!!!');
         const rtoken = await EncryptedStorage.getItem('refreshToken');
-        // console.log('rtoken:', rtoken);
         if (!rtoken) {
           console.log('토큰이 없네요!!!!');
           return;
         }
-        // console.log('aaaaaaaaaaaaaaaaaaaaa');
         const response = await axios.post(
           `${Config.API_URL}/user/refreshToken`,
           {},
@@ -48,7 +55,6 @@ const AppInnger = () => {
             },
           },
         );
-        // console.log('bbbbbbbbbbbbbbbbbbb');
         const refreshresponse = await axios.post(
           `${Config.API_URL}/user/refreshRefreshToken`,
           {},
@@ -73,8 +79,6 @@ const AppInnger = () => {
       } catch (error) {
         console.error(error);
         if ((error as AxiosError).response?.data.code === 'expired') {
-          // refreshToken 만료되었을 때
-          // Alert.alert('알림', '다시 로그인 해주세요.');
         }
       }
     };
@@ -82,17 +86,22 @@ const AppInnger = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    axios.interceptors.request.use(async (config: any) => {
-      const accessToken = await EncryptedStorage.getItem('accessToken');
+    axios.interceptors.request.use(
+      async config => {
+        const accessToken = await EncryptedStorage.getItem('accessToken');
 
-      return {
-        ...config,
-        headers: {
-          authorization: `Bearer ${accessToken}`,
-          ...config.headers, // place this _after_ `authorization`
-        },
-      };
-    });
+        return {
+          ...config,
+          headers: {
+            authorization: `Bearer ${accessToken}`,
+            ...config.headers,
+          },
+        };
+      },
+      async error => {
+        return Promise.reject(error);
+      },
+    );
 
     axios.interceptors.response.use(
       response => {
@@ -123,9 +132,6 @@ const AppInnger = () => {
               'accessToken',
               data.data.accessToken,
             );
-            // const accessToken = await EncryptedStorage.getItem('accessToken');
-
-            // dispatch(userSlice.actions.setAccessToken(data.data.accessToken));
             originalRequest.headers.authorization = `Bearer ${data.data.accessToken}`;
             // 419로 요청 실패했던 요청 새로운 토큰으로 재요청
             console.log('여기 갇힘!!!!!!!!');
@@ -134,7 +140,6 @@ const AppInnger = () => {
           }
         } else if (status === 420) {
           if (error.response.data.code === 'expired') {
-            console.log('420000000000');
             dispatch(userSlice.actions.reMoveme());
             Alert.alert('알림', '다시 로그인 해주세요.');
           }
@@ -146,19 +151,34 @@ const AppInnger = () => {
 
   return isLoggedIn ? (
     <Tab.Navigator>
-      <Tab.Screen name="Hey" component={Hey} options={{title: '오더 목록'}} />
+      <Tab.Screen
+        name="MainPage"
+        component={MainPage}
+        options={{
+          headerShown: false,
+
+          tabBarIcon: ({color}) => (
+            <FontAwesome5 name="list" size={20} style={{color}} />
+          ),
+          tabBarActiveTintColor: 'blue',
+        }}
+      />
     </Tab.Navigator>
   ) : (
     <Stack.Navigator>
       <Stack.Screen
         name="SignIn"
         component={SignIn}
-        options={{title: '로그인'}}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="SignUp"
         component={SignUp}
-        options={{title: '회원가입'}}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );

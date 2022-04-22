@@ -13,7 +13,9 @@ const DismissKeyboardView = ({children, ...props}) => (
     <KeyboardAwareScrollView
       {...props}
       style={props.style}
-      contentContainerStyle={{flex: 1}}>
+      // contentContainerStyle={{flex: 1}}
+      // contentContainerStyle={{justifycontent: 'center'}}
+    >
       {children}
     </KeyboardAwareScrollView>
   </TouchableWithoutFeedback>
