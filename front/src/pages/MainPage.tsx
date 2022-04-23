@@ -13,6 +13,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StackActions} from '@react-navigation/native';
 import PostList from './PostList';
 import Post from './Post';
+import Hey from './Hey';
 const Stack = createNativeStackNavigator();
 
 const MainPage = () => {
@@ -28,6 +29,7 @@ const MainPage = () => {
         component={Post}
         options={{headerShown: false}}
       />
+      {/* <Stack.Screen name="Hey" component={Hey} options={{headerShown: false}} /> */}
     </Stack.Navigator>
   );
 };

@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
   View,
+  ScrollView,
 } from 'react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {addPost} from '../actions/post';
@@ -16,76 +17,36 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../reducer/index';
 
 const Hey = () => {
-  const dispatch = useAppDispatch();
-  // const accessToken = useSelector((state: RootState) => state.user.accessToken);
-
-  const [post, setPost] = useState('');
-
-  const func = useCallback(() => {
-    // console.log('func');
-
-    dispatch(addPost({post}));
-  }, [post, dispatch]);
-
-  // const func = useCallback(() => {
-  //   // console.log('func');
-
-  //   dispatch(addPost({post, accessToken}));
-  // }, [post, accessToken, dispatch]);
-
-  const onPost = useCallback(text => {
-    setPost(text);
-  }, []);
-
   return (
-    <View>
-      <Pressable onPress={func}>
-        <Text>Hey</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={onPost}
-          placeholder="이메일을 입력해주세요"
-          placeholderTextColor="#666"
-          importantForAutofill="yes"
-          textContentType="emailAddress"
-          value={post}
-          clearButtonMode="while-editing" // 아이폰에만 가능
-          blurOnSubmit={false}
-        />
-      </Pressable>
+    <View style={styles.main}>
+      {/* <Text>main</Text> */}
+      <View style={styles.first}>
+        <Text>first1</Text>
+        <Text>first2</Text>
+      </View>
+      <View style={styles.second}>
+        <Text>second</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  textInput: {
-    padding: 5,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+  main: {
+    flex: 1,
+    // flexDirection: 'row',
+    backgroundColor: 'lightblue',
   },
-  inputWrapper: {
-    padding: 20,
+  first: {
+    flex: 1,
+    // flexDirection: 'row',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: 'yellow',
   },
-  label: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginBottom: 20,
-  },
-  buttonZone: {
-    alignItems: 'center',
-  },
-  loginButton: {
-    backgroundColor: 'gray',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  loginButtonActive: {
-    backgroundColor: 'blue',
-  },
-  loginButtonText: {
-    color: 'white',
-    fontSize: 16,
+  second: {
+    flex: 1,
+    backgroundColor: 'lightgreen',
   },
 });
 

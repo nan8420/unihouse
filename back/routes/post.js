@@ -7,8 +7,9 @@ const { verifyToken, verifyRefreshToken } = require("./middlewares");
 router.post("/addpost", verifyToken, async (req, res, next) => {
   try {
     console.log("???????????????????");
+    console.log("req.body:", req.body);
     const post = await Post.create({
-      content: req.body.post,
+      content: req.body.content,
       UserId: req.userid,
     });
 

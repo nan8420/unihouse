@@ -10,7 +10,7 @@ export const addPost = createAsyncThunk(
   'post/addPost',
   async (data: any, thunkAPI) => {
     try {
-      // console.log('data:::', data);
+      console.log('data:::', data);
       const response = await axios.post('/post/addPost', data);
       // const response = await axios.post('/user/addPost', data, {
       //   headers: {authorization: `Bearer ${data.accessToken}`},

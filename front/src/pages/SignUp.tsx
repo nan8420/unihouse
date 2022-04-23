@@ -15,7 +15,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
 import DismissKeyboardView from '../components/DismissKeyboardView';
-import useInput from '../hooks/useInput';
+import useInput from '../hooks/useInputtrim';
 import {signup} from '../actions/user';
 import {useAppDispatch} from '../store';
 import {useSelector} from 'react-redux';

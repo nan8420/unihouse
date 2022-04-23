@@ -19,6 +19,7 @@ import userSlice from './src/reducer/user';
 import {loadMyInfo} from './src/actions/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import usePermissions from './src/hooks/usePermissions';
 
 export type LoggedInParamList = {
   MainPage: undefined;
@@ -37,6 +38,9 @@ const Stack = createNativeStackNavigator();
 const AppInnger = () => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.user.me);
+
+  usePermissions();
+
   useEffect(() => {
     const getTokenAndRefresh = async () => {
       try {
@@ -151,11 +155,24 @@ const AppInnger = () => {
 
   return isLoggedIn ? (
     <Tab.Navigator>
+      {/* <Tab.Screen
+        name="Hey"
+        component={Hey}
+        options={{
+          headerShown: false,
+
+          tabBarIcon: ({color}) => (
+            <FontAwesome5 name="list" size={20} style={{color}} />
+          ),
+          tabBarActiveTintColor: 'blue',
+        }}
+      /> */}
       <Tab.Screen
         name="MainPage"
         component={MainPage}
         options={{
           headerShown: false,
+          tabBarStyle: {display: 'none'},
 
           tabBarIcon: ({color}) => (
             <FontAwesome5 name="list" size={20} style={{color}} />
