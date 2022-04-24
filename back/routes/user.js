@@ -70,8 +70,8 @@ router.post("/refreshToken", verifyRefreshToken, async (req, res, next) => {
 
     process.env.ACCESS_TOKEN_SECRET,
     // jwtSecret,
-    { expiresIn: "30m" }
-    // { expiresIn: "30s" }
+    // { expiresIn: "30m" }
+    { expiresIn: "30s" }
   );
 
   const user = await User.findOne({
@@ -144,8 +144,8 @@ router.post("/login", async (req, res, next) => {
     { sub: "access", email: req.body.email, userId: user.id },
     process.env.ACCESS_TOKEN_SECRET,
     // jwtSecret,
-    { expiresIn: "30m" }
-    // { expiresIn: "30s" }
+    // { expiresIn: "30m" }
+    { expiresIn: "30s" }
   );
   // console.log("accessToken:", accessToken);
   const refreshToken = jwt.sign(
@@ -155,7 +155,7 @@ router.post("/login", async (req, res, next) => {
     { expiresIn: "24h" }
     // { expiresIn: "60s" }
   );
-  console.log("refreshToken:", refreshToken);
+  // console.log("refreshToken:", refreshToken);
 
   const fulluser = await User.findOne({
     where: { id: user.id },

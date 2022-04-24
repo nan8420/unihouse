@@ -8,10 +8,20 @@ axios.defaults.baseURL = Config.API_URL;
 
 export const addPost = createAsyncThunk(
   'post/addPost',
-  async (data: any, thunkAPI) => {
+  async (data: Object, thunkAPI) => {
     try {
-      console.log('data:::', data);
-      const response = await axios.post('/post/addPost', data);
+      // console.log('data:::', data);
+      const accessToken = await EncryptedStorage.getItem('accessToken');
+
+      const response = await axios.post('/post/addPost', data, {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data',
+        },
+        transformRequest: formData => formData,
+      });
+
+      // console.log('response:', response);
       // const response = await axios.post('/user/addPost', data, {
       //   headers: {authorization: `Bearer ${data.accessToken}`},
       // });
@@ -23,3 +33,21 @@ export const addPost = createAsyncThunk(
     }
   },
 );
+
+// export const addPost = createAsyncThunk(
+//   'post/addPost',
+//   async (data: Object, thunkAPI) => {
+//     try {
+//       console.log('data:::', data);
+//       const response = await axios.post('/post/addPost', data);
+//       // const response = await axios.post('/user/addPost', data, {
+//       //   headers: {authorization: `Bearer ${data.accessToken}`},
+//       // });
+//       // console.log('response:::', response);
+//       thunkAPI.dispatch(userSlice.actions.addPostToMe(response.data.id));
+//       return response.data;
+//     } catch (error: any) {
+//       return thunkAPI.rejectWithValue(error.response.data);
+//     }
+//   },
+// );

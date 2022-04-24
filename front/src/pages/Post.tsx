@@ -12,6 +12,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Dimensions,
+  Image,
+  SegmentedControlIOSBase,
 } from 'react-native';
 
 import ImagePicker from 'react-native-image-crop-picker';
@@ -26,6 +28,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useAppDispatch} from '../store';
 import {addPost} from '../actions/post';
 import useInput from '../hooks/useInput';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 const Post = () => {
   const dispatch = useAppDispatch();
@@ -37,6 +40,8 @@ const Post = () => {
   }>();
   const [preview, setPreview] = useState<{uri: string}>();
 
+  // console.log(' image:', image);
+  // console.log(' content:', content);
   const onResponse = useCallback(async response => {
     // console.log(response.width, response.height, response.exif);
     // console.log('response:::', response);
@@ -65,7 +70,7 @@ const Post = () => {
 
   const onTakePhoto = useCallback(() => {
     // 이미지 촬영
-    console.log('onTakePhoto:', onTakePhoto);
+    // console.log('onTakePhoto:', onTakePhoto);
     return ImagePicker.openCamera({
       includeBase64: true,
       includeExif: true,
@@ -86,10 +91,35 @@ const Post = () => {
       .catch(console.log);
   }, [onResponse]);
 
-  const sendPostfunc = useCallback(() => {
-    dispatch(addPost({content}));
-  }, [dispatch, content]);
-  const canimage = true;
+  const sendPostfunc = useCallback(async () => {
+    if (!content) {
+      Alert.alert('알림', '내용을 입력하세요!');
+    }
+
+    const formData = new FormData();
+
+    formData.append('image', image);
+    formData.append('content', content);
+    dispatch(addPost(formData));
+
+    // try {
+    //   const accessToken = await EncryptedStorage.getItem('accessToken');
+
+    //   await axios.post(`${Config.API_URL}/post/addpost`, formData, {
+    //     headers: {
+    //       authorization: `Bearer ${accessToken}`,
+    //       'Content-Type': 'multipart/form-data',
+    //     },
+    //     transformRequest: formData => formData,
+    //   });
+    // } catch (error) {
+    //   console.log('error:');
+    // }
+
+    // dispatch(addPost(formData));
+    // dispatch(addPost({content}));
+  }, [dispatch, image, content]);
+  // const canimage = true;
   return (
     <View style={styles.first}>
       <View style={styles.abovecontainer}>
@@ -98,15 +128,17 @@ const Post = () => {
             style={styles.input}
             multiline={true}
             autoFocus={true}
-            placeholder="What's happening?"
+            placeholder="무엇이든 적어보세요!"
             onChangeText={onChangeContent}
             value={content}
           />
-          {canimage ? (
+          {/* {canimage ? (
             <View style={styles.imageview}>
               <Text>hi</Text>
             </View>
-          ) : null}
+          ) : null} */}
+
+          {preview && <Image style={styles.previewImage} source={preview} />}
         </ScrollView>
       </View>
       <View style={styles.bottomcontainer}>
@@ -140,7 +172,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'yellow',
   },
 
-  imageview: {
+  previewImage: {
     backgroundColor: 'green',
     // right: Dimensions.get('window').width / 10,
     left: Dimensions.get('window').width / 1.7,

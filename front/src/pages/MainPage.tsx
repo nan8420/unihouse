@@ -19,11 +19,11 @@ const Stack = createNativeStackNavigator();
 const MainPage = () => {
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen
+      <Stack.Screen
         name="PostList"
         component={PostList}
         options={{headerShown: false}}
-      /> */}
+      />
       <Stack.Screen
         name="Post"
         component={Post}

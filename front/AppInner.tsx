@@ -109,7 +109,7 @@ const AppInnger = () => {
 
     axios.interceptors.response.use(
       response => {
-        console.log('인터셉터!!!!!!!!!!!!!!');
+        // console.log('인터셉터!!!!!!!!!!!!!!');
         // console.log('response:::', response);
         return response;
       },
@@ -139,7 +139,7 @@ const AppInnger = () => {
             originalRequest.headers.authorization = `Bearer ${data.data.accessToken}`;
             // 419로 요청 실패했던 요청 새로운 토큰으로 재요청
             console.log('여기 갇힘!!!!!!!!');
-            // console.log('originalRequest::::', originalRequest);
+            console.log('originalRequest::::', originalRequest);
             return axios(originalRequest);
           }
         } else if (status === 420) {
