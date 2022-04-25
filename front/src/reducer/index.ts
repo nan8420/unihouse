@@ -1,8 +1,9 @@
 import {combineReducers} from 'redux';
 import userSlice from './user';
+import postSlice from './post';
 const rootReducer = combineReducers({
   user: userSlice.reducer,
-  // order: orderSlice.reducer,
+  post: postSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

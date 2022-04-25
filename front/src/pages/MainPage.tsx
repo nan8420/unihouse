@@ -13,6 +13,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StackActions} from '@react-navigation/native';
 import PostList from './PostList';
 import Post from './Post';
+import Explain from './Explain';
 import Hey from './Hey';
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,15 @@ const MainPage = () => {
         name="Post"
         component={Post}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Explain"
+        component={Explain}
+        options={{
+          // headerStyle: {backgroundColor: 'papayawhip'},
+          // headerTitle: 'hello',
+          headerShown: false,
+        }}
       />
       {/* <Stack.Screen name="Hey" component={Hey} options={{headerShown: false}} /> */}
     </Stack.Navigator>

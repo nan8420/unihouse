@@ -13,6 +13,7 @@ import SignUp from './src/pages/SignUp';
 import SignIn from './src/pages/SignIn';
 import Hey from './src/pages/Hey';
 import MainPage from './src/pages/MainPage';
+import Explain from './src/pages/Explain';
 import {useAppDispatch} from './src/store';
 import {RootState} from './src/reducer/index';
 import userSlice from './src/reducer/user';
@@ -154,33 +155,23 @@ const AppInnger = () => {
   }, [dispatch]);
 
   return isLoggedIn ? (
-    <Tab.Navigator>
-      {/* <Tab.Screen
-        name="Hey"
-        component={Hey}
-        options={{
-          headerShown: false,
+    <>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="MainPage"
+          component={MainPage}
+          options={{
+            headerShown: false,
+            tabBarStyle: {display: 'none'},
 
-          tabBarIcon: ({color}) => (
-            <FontAwesome5 name="list" size={20} style={{color}} />
-          ),
-          tabBarActiveTintColor: 'blue',
-        }}
-      /> */}
-      <Tab.Screen
-        name="MainPage"
-        component={MainPage}
-        options={{
-          headerShown: false,
-          tabBarStyle: {display: 'none'},
-
-          tabBarIcon: ({color}) => (
-            <FontAwesome5 name="list" size={20} style={{color}} />
-          ),
-          tabBarActiveTintColor: 'blue',
-        }}
-      />
-    </Tab.Navigator>
+            tabBarIcon: ({color}) => (
+              <FontAwesome5 name="list" size={20} style={{color}} />
+            ),
+            tabBarActiveTintColor: 'blue',
+          }}
+        />
+      </Tab.Navigator>
+    </>
   ) : (
     <Stack.Navigator>
       <Stack.Screen

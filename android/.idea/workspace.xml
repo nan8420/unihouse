@@ -8,21 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../back/routes/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/../back/routes/post.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../back/routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/../back/routes/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/AppInner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/AppInner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/Entypo.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/Entypo.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/Feather.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/Feather.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/FontAwesome5_Brands.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/FontAwesome5_Brands.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/FontAwesome5_Regular.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/FontAwesome5_Regular.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/FontAwesome5_Solid.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/FontAwesome5_Solid.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/MaterialCommunityIcons.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/MaterialCommunityIcons.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/Octicons.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/Octicons.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/Zocial.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../front/android/app/src/main/assets/fonts/Zocial.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/ios/unihouse.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../front/ios/unihouse.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/ios/unihouse/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../front/ios/unihouse/Info.plist" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../front/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/actions/post.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/actions/post.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/src/pages/MainPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/MainPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/src/pages/Post.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/Post.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/pages/PostList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/PostList.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,7 +17,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[R3CM60A9HVY]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\nan84\.android\avd\Nexus_5_API_30.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
