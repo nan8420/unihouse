@@ -18,6 +18,7 @@ import PostFlat from '../components/PostFlat';
 import {RootState} from '../reducer/index';
 import {loadPosts} from '../actions/post';
 import {useAppDispatch} from '../store';
+import Loading from '../components/Loading';
 type PostListScreenProps = NativeStackScreenProps<
   LoggedInParamList,
   'MainPage'
@@ -25,11 +26,11 @@ type PostListScreenProps = NativeStackScreenProps<
 
 const PostList = ({navigation}: PostListScreenProps) => {
   const dispatch = useAppDispatch();
-  // const {me} = useSelector((state: RootState) => state.user);
   const {mainPosts} = useSelector((state: RootState) => state.post);
-  // console.log('me:', me);
+  const {loadPostsLoading} = useSelector((state: RootState) => state.post);
 
-  // console.log('mainPosts:', mainPosts);
+  // console.log('loadPostsLoading:', loadPostsLoading);
+
   useEffect(() => {
     dispatch(loadPosts());
   }, [dispatch]);
@@ -48,6 +49,7 @@ const PostList = ({navigation}: PostListScreenProps) => {
         data={mainPosts}
         keyExtractor={item => item.id}
         renderItem={renderItem}
+        ListEmptyComponent={<Loading label={''} />}
       />
       <Pressable style={styles.gotoPost} onPress={gotoPost}>
         <Text style={styles.Posttxt}>Post</Text>

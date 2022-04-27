@@ -3,6 +3,7 @@ import {createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 import Config from 'react-native-config';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import userSlice from '../reducer/user';
+import postSlice from '../reducer/post';
 
 axios.defaults.baseURL = Config.API_URL;
 
@@ -11,7 +12,7 @@ export const loadPosts = createAsyncThunk(
   async (data: any, thunkAPI) => {
     try {
       const response = await axios.get(`/post?lastId=${data?.lastId || 0}`);
-      console.log('response:::', response);
+      // console.log('response:::', response);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -43,7 +44,12 @@ export const addPost = createAsyncThunk(
         },
         transformRequest: formData => formData,
       });
-      thunkAPI.dispatch(userSlice.actions.addPostToMe(response.data.id));
+
+      // console.log('response:', response);
+      thunkAPI.dispatch(postSlice.actions.purePost());
+
+      thunkAPI.dispatch(loadPosts());
+      // thunkAPI.dispatch(userSlice.actions.addPostToMe(response.data.id));
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);

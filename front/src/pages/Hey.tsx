@@ -18,20 +18,56 @@ import {RootState} from '../reducer/index';
 
 const Hey = () => {
   return (
-    <View style={styles.main}>
-      {/* <Text>main</Text> */}
-      <View style={styles.first}>
-        <Text>first1</Text>
-        <Text>first2</Text>
+    // <View style={styles.main}>
+    //   <View style={styles.first}>
+    //     <Text>first1</Text>
+    //     <Text>first2</Text>
+    //   </View>
+    //   <View style={styles.second}>
+    //     <Text>second</Text>
+    //   </View>
+    // </View>
+
+    <View style={styles.maincon}>
+      <Text>main</Text>
+      {/* <View style={styles.one}>
+        <Text>one</Text>
       </View>
-      <View style={styles.second}>
-        <Text>second</Text>
-      </View>
+      <View style={styles.hello}>
+        <View style={styles.two}>
+          <Text>tow</Text>
+        </View> */}
+      {/* </View> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  maincon: {
+    width: 200,
+    height: 100,
+    backgroundColor: 'lightblue',
+    position: 'absolute',
+  },
+
+  one: {
+    width: 600,
+    height: 300,
+    backgroundColor: 'lightgreen',
+    // position: 'absolute',
+  },
+
+  hello: {
+    width: 500,
+    height: 300,
+    backgroundColor: 'orange',
+  },
+  two: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'yellow',
+    position: 'absolute',
+  },
   main: {
     flex: 1,
     // flexDirection: 'row',

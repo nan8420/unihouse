@@ -88,9 +88,12 @@ router.post(
         UserId: req.userid,
       });
 
-      const image = await Image.create({ src: req.file.filename });
-
-      await post.addImages(image);
+      // console.log("req.body:", req.body);
+      // console.log("req.file.filename:", req.file.filename);
+      if (req.body.image !== "undefined") {
+        const image = await Image.create({ src: req.file.filename });
+        await post.addImages(image);
+      }
 
       const fullPost = await Post.findOne({
         where: { id: post.id },
@@ -118,7 +121,11 @@ router.post(
           },
         ],
       });
-      res.status(201).json(fullPost);
+      res.status(201).send("성공");
+
+      // console.log("fullPost:", fullPost);
+      // res.status(201).json(fullPost);
+      // res.status(201);
     } catch (error) {
       console.error(error);
       next(error);

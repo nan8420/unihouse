@@ -22,7 +22,7 @@ interface Props {
 }
 
 const CommentFlat = ({item}: Props) => {
-  console.log('item:', item);
+  // console.log('item:', item);
   return (
     <View style={styles.maincon}>
       <View style={styles.namedaycon}>

@@ -17,7 +17,11 @@ export const initialState = {
 const postSlice = createSlice({
   name: 'post',
   initialState,
-  reducers: {},
+  reducers: {
+    purePost(state) {
+      state.mainPosts = [];
+    },
+  },
   extraReducers: builder =>
     builder
 
@@ -50,7 +54,7 @@ const postSlice = createSlice({
       .addCase(addPost.fulfilled, (state: any, action: any) => {
         state.addPostLoading = false;
         state.addPostDone = true;
-        state.mainPosts.unshift(action.payload);
+        // state.mainPosts.unshift(action.payload);
         state.imagePaths = [];
       })
       .addCase(addPost.rejected, (state, action: any) => {

@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ac5e1340-ad9c-461c-8f99-23ed3a12a0b5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/routes/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/../back/routes/post.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/actions/post.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/actions/post.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/pages/Explain.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/Explain.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/pages/Post.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/Post.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/pages/PostList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/PostList.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

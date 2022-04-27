@@ -20,8 +20,11 @@ import {signup} from '../actions/user';
 import {useAppDispatch} from '../store';
 import {useSelector} from 'react-redux';
 import {RootState} from '../reducer';
+import {RootStackParamList} from '../../AppInner';
 
-const SignUp = () => {
+type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
+
+const SignUp = ({navigation}: SignUpScreenProps) => {
   const dispatch = useAppDispatch();
   const [email, onChangeEmail] = useInput('');
 
@@ -38,9 +41,11 @@ const SignUp = () => {
   const nicknameRef = useRef<TextInput | null>(null);
   const univRef = useRef<TextInput | null>(null);
 
-  const {signupError} = useSelector((state: RootState) => state.user);
+  const {signupError, signupLoading} = useSelector(
+    (state: RootState) => state.user,
+  );
 
-  const canNext = true;
+  const canNext = email && nickname && univ && password;
 
   useEffect(() => {
     if (signupError) {
@@ -57,6 +62,9 @@ const SignUp = () => {
   );
   console.log('nickname:', nickname);
   const onSubmit = useCallback(async () => {
+    if (signupLoading) {
+      return;
+    }
     if (!email || !email.trim()) {
       return Alert.alert('알림', '이메일을 입력하세요');
     }
@@ -91,7 +99,9 @@ const SignUp = () => {
     console.log('비밀번호 맞음');
 
     dispatch(signup({email, password, nickname, univ}));
-  }, [email, password, passwordCheck, nickname, univ, dispatch]);
+
+    navigation.navigate('SignIn');
+  }, [email, password, passwordCheck, nickname, univ, dispatch, navigation]);
 
   return (
     <View style={styles.first}>
@@ -179,7 +189,7 @@ const SignUp = () => {
               value={univ}
               returnKeyType="next"
               clearButtonMode="while-editing"
-              ref={nicknameRef}
+              ref={univRef}
               onSubmitEditing={onSubmit}
             />
           </View>
@@ -193,8 +203,15 @@ const SignUp = () => {
                     )
                   : styles.SignButton
               }
+              disabled={!canNext || signupLoading}
               onPress={onSubmit}>
-              <Text style={styles.SignButtonText}>회원가입</Text>
+              {signupLoading ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Text style={styles.SignButtonText}>회원가입</Text>
+              )}
+
+              {/* <Text style={styles.SignButtonText}>회원가입</Text> */}
             </Pressable>
           </View>
         </View>
@@ -264,6 +281,11 @@ const styles = StyleSheet.create({
   SignButtonText: {
     color: 'white',
     fontSize: 15,
+  },
+
+  loginButtonText: {
+    color: 'white',
+    fontSize: 16,
   },
 });
 

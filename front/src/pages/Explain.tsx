@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -30,8 +30,11 @@ const Explain = () => {
 
   const post = route.params?.item;
 
-  console.log('??????????????????????');
-  console.log('post:', post);
+  const [dot, setDot] = useState(false);
+
+  console.log('dot:', dot);
+  // console.log('??????????????????????');
+  // console.log('post:', post);
 
   const comment = [
     {id: 1, content: 'hello', UserId: 1, PostId: 2},
@@ -66,70 +69,108 @@ const Explain = () => {
     return <CommentFlat item={item} />;
   }, []);
 
+  const dotfunc = useCallback(() => {
+    setDot(prev => !prev);
+  }, []);
+
+  const removefunc = useCallback(() => {
+    console.log('removefunc::::');
+  }, []);
+
+  const adjustfunc = useCallback(() => {
+    console.log('adjustfunc:::::');
+  }, []);
+
   const imagess = true;
+  const dots = true;
   return (
-    <ScrollView style={styles.scrollviewcon}>
-      <View style={styles.first}>
-        <View style={styles.abovecon}>
-          <View style={styles.namedaycon}>
-            <Text style={styles.name}>Elon Musk</Text>
-            <Text style={styles.day}>a day ago</Text>
+    <View style={styles.wrapper}>
+      <ScrollView style={styles.scrollviewcon}>
+        <View style={styles.first}>
+          <View style={styles.abovecon}>
+            <View style={styles.namedaycon}>
+              <Text style={styles.name}>Elon Musk</Text>
+              <Text style={styles.day}>a day ago</Text>
+            </View>
+            <Pressable style={styles.dotcon} onPress={dotfunc}>
+              <Entypo name="dots-three-vertical" size={18} color="black" />
+            </Pressable>
           </View>
-          <View style={styles.dotcon}>
-            <Entypo name="dots-three-vertical" size={18} color="black" />
-          </View>
-        </View>
-        <View style={styles.contentcon}>
-          <Text style={styles.contenttxt}>
-            Elon Reeve Musk FRS is an entrepreneur, investor, and business
-            magnate. He is the founder, CEO, and Chief Engineer at SpaceX;
-            early-stage investor
-          </Text>
-        </View>
-
-        {imagess && (
-          <View style={styles.Imagecon}>
-            <Image
-              style={styles.Image}
-              source={require('../../uploads/Frenchtoast.jpg')}
-            />
-          </View>
-        )}
-
-        <View style={styles.likecommentcon}>
-          <View style={styles.likecon}>
-            <AntDesign name="like2" size={18} color="#ed3972"></AntDesign>
-            <Text style={styles.like}>2</Text>
+          <View style={styles.contentcon}>
+            <Text style={styles.contenttxt}>
+              Elon Reeve Musk FRS is an entrepreneur, investor, and business
+              magnate. He is the founder, CEO, and Chief Engineer at SpaceX;
+              early-stage investor
+            </Text>
           </View>
 
-          <View style={styles.likecon}>
-            <FontAwesome
-              name="commenting-o"
-              size={18}
-              color="#676269"></FontAwesome>
-            <Text style={styles.comment}>2</Text>
+          {dots && (
+            <View style={styles.dotmodal}>
+              <Pressable style={styles.remove} onPress={removefunc}>
+                <Text>삭제</Text>
+              </Pressable>
+
+              <Pressable style={styles.adjust} onPress={adjustfunc}>
+                <Text>수정</Text>
+              </Pressable>
+            </View>
+          )}
+
+          {imagess && (
+            <View style={styles.Imagecon}>
+              <Image
+                style={styles.Image}
+                source={require('../../uploads/Frenchtoast.jpg')}
+              />
+            </View>
+          )}
+
+          <View style={styles.likecommentcon}>
+            <View style={styles.likecon}>
+              <AntDesign name="like2" size={18} color="#ed3972"></AntDesign>
+              <Text style={styles.like}>2</Text>
+            </View>
+
+            <View style={styles.likecon}>
+              <FontAwesome
+                name="commenting-o"
+                size={18}
+                color="#676269"></FontAwesome>
+              <Text style={styles.comment}>2</Text>
+            </View>
           </View>
         </View>
+
+        <View style={styles.bottomcon} />
+
+        {/* <View style={styles.subject}> */}
+        <Text style={styles.subjecttxt}>Comments</Text>
+        {/* </View> */}
+
+        {comment.map(item => (
+          <CommentFlat key={item.id} item={item} />
+        ))}
+      </ScrollView>
+      <View style={styles.inputcon}>
+        <TextInput
+          style={styles.input}
+          placeholder="  댓글을 입력해주세요..."></TextInput>
       </View>
-
-      <View style={styles.bottomcon} />
-
-      {/* <View style={styles.subject}> */}
-      <Text style={styles.subjecttxt}>Comments</Text>
-      {/* </View> */}
-
-      {comment.map(item => (
-        <CommentFlat key={item.id} item={item} />
-      ))}
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollviewcon: {},
+  wrapper: {
+    flex: 1,
+    // backgroundColor: 'white',
+  },
+
+  scrollviewcon: {
+    // marginBottom: 100,
+  },
 
   first: {
-    flex: 1,
     // backgroundColor: 'lightblue',
     marginTop: 20,
     marginHorizontal: 15,
@@ -162,6 +203,36 @@ const styles = StyleSheet.create({
 
   dotcon: {
     top: 10,
+  },
+
+  dotmodal: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    width: 70,
+    height: 90,
+    right: 15,
+    // justifyContent: 'center',
+    // alignItems: 'center',s
+    borderWidth: 0.5,
+    borderColor: 'lightgray',
+    borderRadius: 10,
+    flex: 1,
+  },
+
+  remove: {
+    flex: 1,
+    // backgroundColor: 'lightblue',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: 0.3,
+    borderBottomColor: 'lightgray',
+  },
+
+  adjust: {
+    flex: 1,
+    // backgroundColor: 'lightgreen',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   contentcon: {
@@ -230,7 +301,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 
-  third: {flex: 1, backgroundColor: 'green'},
+  inputcon: {
+    // backgroundColor: 'lightblue',
+    // width: 100,
+    // height: 100,
+    borderTopWidth: 0.4,
+    borderColor: '#b0b4b8',
+    height: Dimensions.get('window').height / 15,
+  },
+
+  input: {
+    marginLeft: 5,
+    // backgroundColor: 'green',
+    // width: 100,
+    // height: Dimensions.get('window').height / 14,
+  },
 });
 
 export default Explain;

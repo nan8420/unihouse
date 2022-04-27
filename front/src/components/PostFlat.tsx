@@ -40,219 +40,140 @@ const PostList = ({item}: Props) => {
   const gotoExplain = useCallback(() => {
     navigation.push('Explain', {item: item});
   }, [navigation, item]);
-  return (
-    <>
-      <Pressable style={styles.main} onPress={gotoExplain}>
-        <View style={styles.min}>
-          <View style={styles.leftcon}>
-            <Text style={styles.nickname}>{item.User.nickname}</Text>
-            <View style={styles.please}>
-              <Text style={styles.day}>{day}</Text>
-              <View style={styles.likes}>
-                <View style={styles.likecon}>
-                  <AntDesign name="like2" size={14} color="#ed3972"></AntDesign>
-                  <Text style={styles.like}>{item.Likers?.length}</Text>
-                </View>
-                <View style={styles.likecon}>
-                  <FontAwesome
-                    name="commenting-o"
-                    size={14}
-                    color="#60c494"></FontAwesome>
-                  <Text style={styles.comment}>{item.Comments?.length}</Text>
-                </View>
-              </View>
-            </View>
-          </View>
 
+  return (
+    <Pressable style={styles.maincon} onPress={gotoExplain}>
+      <View style={styles.first}>
+        <View style={styles.second}>
+          <Text style={styles.nickname}>{item?.User?.nickname}</Text>
+          <Text style={styles.day}>{day}</Text>
+        </View>
+
+        <View style={styles.third}>
           <View style={styles.contentcon}>
-            <Text style={styles.content} numberOfLines={2} ellipsizeMode="tail">
-              {item.content}
-            </Text>
+            <Text numberOfLines={2}>{item?.content}</Text>
           </View>
         </View>
 
-        {item.Images[0]?.src && (
+        <View style={styles.forth}>
+          <View style={styles.likecon}>
+            <AntDesign
+              style={styles.likeicon}
+              name="like2"
+              size={14}
+              color="#ed3972"></AntDesign>
+            <Text style={styles.like}>{item?.Likers?.length}</Text>
+          </View>
+          <View style={styles.likecon}>
+            <FontAwesome
+              style={styles.likeicon}
+              name="commenting-o"
+              size={14}
+              color="#60c494"></FontAwesome>
+            <Text style={styles.like}>{item?.Likers?.length}</Text>
+          </View>
+        </View>
+      </View>
+
+      {item?.Images[0]?.src && (
+        <View style={styles.imagecon}>
           <Image
             style={styles.Image}
-            source={{uri: `${Config.API_URL}/${item.Images[0]?.src}`}}
+            source={{uri: `${Config.API_URL}/${item?.Images[0]?.src}`}}
           />
-        )}
-      </Pressable>
-    </>
+        </View>
+      )}
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
-  main: {
-    flex: 1,
+  maincon: {
+    flexDirection: 'row',
     borderBottomWidth: 0.3,
-    borderColor: '#b0b4b8',
-    paddingBottom: 5,
-    paddingTop: 10,
-    // backgroundColor: 'lightblue',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-
-  min: {
-    flex: 5,
-    // backgroundColor: 'lightblue',
-  },
-
-  leftcon: {
-    // backgroundColor: 'lightblue',
-    flexDirection: 'row',
-    marginLeft: 10,
-    // paddingTop: 8,
-    paddingBottom: 13,
-  },
-
-  nickname: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#47a877',
-    // color: '#7080a1',
-  },
-
-  please: {
+    borderBottomColor: '#b0b4b8',
     flex: 1,
+    marginRight: 3,
+    // marginLeft: 10,
     // backgroundColor: 'lightblue',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-
-    alignItems: 'center',
   },
+
+  first: {
+    // flexDirection: 'row',
+    // backgroundColor: 'lightblue',
+    // margin: 10,
+    // marginRight: 10,
+    // paddingLeft: 15,
+    // paddingRight: 10,
+    // paddingHorizontal: 10,
+    paddingLeft: 10,
+    paddingVertical: 10,
+    flex: 5,
+  },
+
+  second: {
+    flexDirection: 'row',
+  },
+
+  nickname: {color: '#47a877', fontSize: 15, fontWeight: '600'},
 
   day: {marginLeft: 10, fontSize: 13, color: '#959a9e', top: 1},
 
-  likes: {
+  third: {
     flexDirection: 'row',
-    right: -4,
-    top: 1,
+    justifyContent: 'space-between',
+    flex: 1,
+    paddingTop: 15,
+    // marginTop: 7,
+    // backgroundColor: 'lightblue',
   },
+
   contentcon: {
-    marginLeft: 10,
+    flex: 5,
+    // justifyContent: 'flex-end',
+    // backgroundColor: 'lightblue',
+  },
+
+  forth: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    // backgroundColor: 'lightblue',
+    right: 10,
     flexDirection: 'row',
-    // backgroundColor: 'yellow',
-  },
-
-  content: {
-    top: -5,
-  },
-
-  middlecon: {
-    // right: Dimensions.get('window').width / 10,
-    // flexDirection: 'row',
+    top: 6,
   },
 
   likecon: {
-    // flex: 1,
-    // backgroundColor: 'lightblue',
     flexDirection: 'row',
+    marginHorizontal: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 8,
-    right: 15,
-    // right: 60,
-    // top: -30,
-    // right: Dimensions.get('window').width / 100,
+    // backgroundColor: 'yellow',
+  },
 
+  likeicon: {
+    // marginRight: 4,
+    right: 4,
+  },
+
+  like: {},
+
+  imagecon: {
+    flex: 1.4,
+    // backgroundColor: 'lightgreen',
+    // borderRadius: 20,
+    justifyContent: 'center',
     // alignItems: 'center',
   },
-  like: {marginLeft: 5, color: '#ed3972'},
 
-  comment: {marginLeft: 5, color: '#60c494'},
   Image: {
-    flex: 1.5,
+    // backgroundColor: 'lightgreen',
+    // flex: 1,
+    borderRadius: 15,
+
     height: Dimensions.get('window').height / 9,
-    // resizeMode: 'contain',
-    resizeMode: 'cover',
-    borderRadius: 10,
-    marginRight: 6,
   },
 });
 
 export default PostList;
-
-// import React, {useCallback} from 'react';
-// import {
-//   ActivityIndicator,
-//   Alert,
-//   Platform,
-//   Pressable,
-//   Text,
-//   TextInput,
-//   View,
-//   FlatList,
-//   Image,
-//   StyleSheet,
-//   Dimensions,
-// } from 'react-native';
-// import {NavigationProp, useNavigation} from '@react-navigation/native';
-// import {LoggedInParamList} from '../../AppInner';
-// import AntDesign from 'react-native-vector-icons/AntDesign';
-
-// interface Props {
-//   item: any;
-// }
-
-// const PostList = ({item}: Props) => {
-//   return (
-//     <>
-//       <View style={styles.main}>
-//         <View style={styles.min}>
-//           <View style={styles.middlecon}>
-//             <Text style={styles.content} numberOfLines={2} ellipsizeMode="tail">
-//               {item.content}
-//             </Text>
-//           </View>
-//         </View>
-
-//         {item.Image ? (
-//           <View style={styles.rightcon}>
-//             <Image
-//               style={styles.Image}
-
-//               // source={require('../../uploads/Affogato.jpg')}
-//             />
-//           </View>
-//         ) : null}
-//       </View>
-//     </>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   main: {
-//     felx: 1,
-//     borderBottomWidth: 0.3,
-//     borderColor: '#b0b4b8',
-//     paddingBottom: 30,
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//   },
-
-//   min: {
-//     flex: 5,
-//   },
-
-//   middlecon: {},
-
-//   content: {},
-
-//   rightcon: {
-//     flex: 1,
-//     backgroundColor: 'lightblue',
-//     // width: 100,
-//     // height: 30,
-//   },
-
-//   Image: {
-//     width: 10,
-//     height: 30,
-//     backgroundColor: 'lightgreen',
-//     // resizeMode: 'center',
-//   },
-// });
-
-// export default PostList;

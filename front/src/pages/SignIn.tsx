@@ -25,7 +25,7 @@ type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
 const SignIn = ({navigation}: SignInScreenProps) => {
   const dispatch = useAppDispatch();
-
+  const {loginLoading} = useSelector((state: RootState) => state.user);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
@@ -33,7 +33,7 @@ const SignIn = ({navigation}: SignInScreenProps) => {
   const passwordRef = useRef<TextInput | null>(null);
   const passwordCheckRef = useRef<TextInput | null>(null);
 
-  const canNext = true;
+  const canNext = email && password;
 
   const onSubmit = useCallback(async () => {
     if (!email || !email.trim()) {
@@ -108,6 +108,7 @@ const SignIn = ({navigation}: SignInScreenProps) => {
                     )
                   : styles.SignButton
               }
+              disabled={!canNext || loginLoading}
               onPress={onSubmit}>
               <Text style={styles.SignButtonText}>로그인</Text>
             </Pressable>

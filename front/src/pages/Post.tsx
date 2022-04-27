@@ -30,7 +30,17 @@ import {addPost} from '../actions/post';
 import useInput from '../hooks/useInput';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import DismissKeyboardView from '../components/DismissKeyboardView';
-const Post = () => {
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {LoggedInParamList} from '../../AppInner';
+
+import {loadPosts} from '../actions/post';
+import postSlice from '../reducer/post';
+import {RootState} from '../reducer/index';
+type PostListScreenProps = NativeStackScreenProps<
+  LoggedInParamList,
+  'MainPage'
+>;
+const Post = ({navigation}: PostListScreenProps) => {
   const dispatch = useAppDispatch();
   const [content, onChangeContent] = useInput('');
   const [image, setImage] = useState<{
@@ -92,8 +102,9 @@ const Post = () => {
   }, [onResponse]);
 
   const sendPostfunc = useCallback(async () => {
-    if (!content) {
+    if (!content || !content.trim()) {
       Alert.alert('알림', '내용을 입력하세요!');
+      return;
     }
 
     const formData = new FormData();
@@ -102,23 +113,8 @@ const Post = () => {
     formData.append('content', content);
     dispatch(addPost(formData));
 
-    // try {
-    //   const accessToken = await EncryptedStorage.getItem('accessToken');
-
-    //   await axios.post(`${Config.API_URL}/post/addpost`, formData, {
-    //     headers: {
-    //       authorization: `Bearer ${accessToken}`,
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //     transformRequest: formData => formData,
-    //   });
-    // } catch (error) {
-    //   console.log('error:');
-    // }
-
-    // dispatch(addPost(formData));
-    // dispatch(addPost({content}));
-  }, [dispatch, image, content]);
+    navigation.navigate('PostList');
+  }, [dispatch, image, content, navigation]);
   // const canimage = true;
   return (
     <View style={styles.first}>
@@ -140,26 +136,23 @@ const Post = () => {
 
           {preview && <Image style={styles.previewImage} source={preview} />}
         </ScrollView>
-      </View>
-      <View>
-        <DismissKeyboardView>
-          <View style={styles.bottomcontainer}>
-            <Pressable style={styles.photobtn} onPress={onTakePhoto}>
-              <MaterialIcons name="add-a-photo" size={28} color={'#b1afb3'} />
-            </Pressable>
-            <Pressable style={styles.imagebtn} onPress={onChangeFile}>
-              <MaterialCommunityIcons
-                name="image-plus"
-                size={28}
-                color={'#b1afb3'}
-              />
-            </Pressable>
-            <Pressable style={styles.completebtn} onPress={sendPostfunc}>
-              <Text style={styles.posttxt}>post</Text>
-              {/* <Ionicons name="md-checkmark-done-outline" size={33} color="black" /> */}
-            </Pressable>
-          </View>
-        </DismissKeyboardView>
+
+        <View style={styles.bottomcontainer}>
+          <Pressable style={styles.photobtn} onPress={onTakePhoto}>
+            <MaterialIcons name="add-a-photo" size={28} color={'#b1afb3'} />
+          </Pressable>
+          <Pressable style={styles.imagebtn} onPress={onChangeFile}>
+            <MaterialCommunityIcons
+              name="image-plus"
+              size={28}
+              color={'#b1afb3'}
+            />
+          </Pressable>
+          <Pressable style={styles.completebtn} onPress={sendPostfunc}>
+            <Text style={styles.posttxt}>post</Text>
+            {/* <Ionicons name="md-checkmark-done-outline" size={33} color="black" /> */}
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -201,7 +194,7 @@ const styles = StyleSheet.create({
   },
 
   bottomcontainer: {
-    flex: 1.5,
+    // flex: 1.5,
     borderWidth: 1,
     borderColor: '#d1e8dc',
     // backgroundColor: 'lightblue',
@@ -284,7 +277,17 @@ export default Post;
 // import useInput from '../hooks/useInput';
 // import EncryptedStorage from 'react-native-encrypted-storage';
 // import DismissKeyboardView from '../components/DismissKeyboardView';
-// const Post = () => {
+// import {NativeStackScreenProps} from '@react-navigation/native-stack';
+// import {LoggedInParamList} from '../../AppInner';
+
+// import {loadPosts} from '../actions/post';
+// import postSlice from '../reducer/post';
+// import {RootState} from '../reducer/index';
+// type PostListScreenProps = NativeStackScreenProps<
+//   LoggedInParamList,
+//   'MainPage'
+// >;
+// const Post = ({navigation}: PostListScreenProps) => {
 //   const dispatch = useAppDispatch();
 //   const [content, onChangeContent] = useInput('');
 //   const [image, setImage] = useState<{
@@ -346,8 +349,9 @@ export default Post;
 //   }, [onResponse]);
 
 //   const sendPostfunc = useCallback(async () => {
-//     if (!content) {
+//     if (!content || !content.trim()) {
 //       Alert.alert('알림', '내용을 입력하세요!');
+//       return;
 //     }
 
 //     const formData = new FormData();
@@ -356,23 +360,8 @@ export default Post;
 //     formData.append('content', content);
 //     dispatch(addPost(formData));
 
-//     // try {
-//     //   const accessToken = await EncryptedStorage.getItem('accessToken');
-
-//     //   await axios.post(`${Config.API_URL}/post/addpost`, formData, {
-//     //     headers: {
-//     //       authorization: `Bearer ${accessToken}`,
-//     //       'Content-Type': 'multipart/form-data',
-//     //     },
-//     //     transformRequest: formData => formData,
-//     //   });
-//     // } catch (error) {
-//     //   console.log('error:');
-//     // }
-
-//     // dispatch(addPost(formData));
-//     // dispatch(addPost({content}));
-//   }, [dispatch, image, content]);
+//     navigation.navigate('PostList');
+//   }, [dispatch, image, content, navigation]);
 //   // const canimage = true;
 //   return (
 //     <View style={styles.first}>
@@ -395,17 +384,25 @@ export default Post;
 //           {preview && <Image style={styles.previewImage} source={preview} />}
 //         </ScrollView>
 //       </View>
-//       <View style={styles.bottomcontainer}>
-//         <Pressable style={styles.photobtn} onPress={onTakePhoto}>
-//           <MaterialIcons name="add-a-photo" size={30} />
-//         </Pressable>
-//         <Pressable style={styles.imagebtn} onPress={onChangeFile}>
-//           <MaterialCommunityIcons name="image-plus" size={30} />
-//         </Pressable>
-//         <Pressable style={styles.completebtn} onPress={sendPostfunc}>
-//           <Text style={styles.posttxt}>Post</Text>
-//           {/* <Ionicons name="md-checkmark-done-outline" size={33} color="black" /> */}
-//         </Pressable>
+//       <View>
+//         <DismissKeyboardView>
+//           <View style={styles.bottomcontainer}>
+//             <Pressable style={styles.photobtn} onPress={onTakePhoto}>
+//               <MaterialIcons name="add-a-photo" size={28} color={'#b1afb3'} />
+//             </Pressable>
+//             <Pressable style={styles.imagebtn} onPress={onChangeFile}>
+//               <MaterialCommunityIcons
+//                 name="image-plus"
+//                 size={28}
+//                 color={'#b1afb3'}
+//               />
+//             </Pressable>
+//             <Pressable style={styles.completebtn} onPress={sendPostfunc}>
+//               <Text style={styles.posttxt}>post</Text>
+//               {/* <Ionicons name="md-checkmark-done-outline" size={33} color="black" /> */}
+//             </Pressable>
+//           </View>
+//         </DismissKeyboardView>
 //       </View>
 //     </View>
 //   );
@@ -415,7 +412,7 @@ export default Post;
 //   first: {
 //     flex: 1,
 
-//     // backgroundColor: 'red'
+//     // backgroundColor: 'red',
 //   },
 //   abovecontainer: {
 //     flex: 9,
@@ -428,7 +425,7 @@ export default Post;
 //   },
 
 //   previewImage: {
-//     backgroundColor: 'green',
+//     // backgroundColor: 'green',
 //     // right: Dimensions.get('window').width / 10,
 //     left: Dimensions.get('window').width / 1.7,
 //     // position: 'relative',
@@ -447,14 +444,14 @@ export default Post;
 //   },
 
 //   bottomcontainer: {
-//     flex: 1.4,
+//     flex: 1.5,
 //     borderWidth: 1,
 //     borderColor: '#d1e8dc',
 //     // backgroundColor: 'lightblue',
 //     // justifyContent: 'space-evenly',
 //     alignItems: 'center',
 //     flexDirection: 'row',
-//     // height: Dimensions.get('window').height / 30,
+//     height: Dimensions.get('window').height / 13,
 //     // alignItems: 'center',
 //   },
 
@@ -473,7 +470,7 @@ export default Post;
 //     width: Dimensions.get('window').width / 6,
 //     justifyContent: 'center',
 //     alignItems: 'center',
-//     marginLeft: 3,
+//     // marginLeft: 1,
 //   },
 
 //   completebtn: {
@@ -481,17 +478,18 @@ export default Post;
 //     backgroundColor: '#7a07ab',
 //     // borderWidth: 1,
 //     borderRadius: 20,
-//     width: Dimensions.get('window').width / 4.5,
-//     height: Dimensions.get('window').height / 15,
+//     width: Dimensions.get('window').width / 4.3,
+//     height: Dimensions.get('window').height / 18,
 //     justifyContent: 'center',
 //     alignItems: 'center',
-//     left: Dimensions.get('window').width / 10.5,
+//     left: Dimensions.get('window').width / 25,
 //   },
 
 //   posttxt: {
 //     color: 'white',
-//     fontWeight: '600',
-//     fontSize: 16,
+//     // fontWeight: '400',
+//     fontSize: 18,
+//     // fontFamily: 'Rancho-Regular',
 //   },
 // });
 
