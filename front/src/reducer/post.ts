@@ -1,17 +1,37 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {addPost, loadPosts} from '../actions/post';
+import {
+  addPost,
+  loadPosts,
+  likePost,
+  unlikePost,
+  addComment,
+  loadPost,
+} from '../actions/post';
 
 export const initialState = {
   mainPosts: [],
   imagePaths: [],
+  singlePost: null,
 
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
 
+  loadPostLoading: false,
+  loadPostDone: false,
+  loadPostError: null,
+
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+
+  likePostLoading: false,
+  likePostDone: false,
+  likePostError: null,
+
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
 };
 
 const postSlice = createSlice({
@@ -45,6 +65,23 @@ const postSlice = createSlice({
         state.loadPostsError = action.error.message;
       })
 
+      // loadPost
+      .addCase(loadPost.pending, state => {
+        state.loadPostLoading = true;
+        state.loadPostDone = false;
+        state.loadPostError = null;
+      })
+      .addCase(loadPost.fulfilled, (state, action) => {
+        // console.log(action.payload);
+        state.loadPostLoading = false;
+        state.loadPostDone = true;
+        state.singlePost = action.payload;
+      })
+      .addCase(loadPost.rejected, (state, action) => {
+        state.loadPostLoading = false;
+        state.loadPostError = action.error.message;
+      })
+
       // addPost
       .addCase(addPost.pending, state => {
         state.addPostLoading = true;
@@ -60,6 +97,79 @@ const postSlice = createSlice({
       .addCase(addPost.rejected, (state, action: any) => {
         state.addPostLoading = false;
         state.addPostError = action.error.message;
+      })
+
+      // likePost
+      .addCase(likePost.pending, state => {
+        state.likePostLoading = true;
+        state.likePostDone = false;
+        state.likePostError = null;
+      })
+      .addCase(likePost.fulfilled, (state, action) => {
+        // const post = find(state.mainPosts, {id: action.payload.PostId});
+        const post = state.mainPosts.find(v => v.id === action.payload.PostId);
+        // const post = find(state.mainPosts, {id: action.payload.PostId});
+        state.likePostLoading = false;
+        state.likePostDone = true;
+        post.Likers.push({id: action.payload.UserId});
+      })
+
+      // .addCase(likePost.fulfilled, (state, action) => {
+      //   const post = find(state.mainPosts, {id: action.payload.PostId});
+      //   state.likePostLoading = false;
+      //   state.likePostDone = true;
+      //   post.Likers.push({id: action.payload.UserId});
+      // })
+      .addCase(likePost.rejected, (state, action: any) => {
+        state.likePostLoading = false;
+        state.likePostError = action.error.message;
+      })
+
+      // unlikePost
+      .addCase(unlikePost.pending, state => {
+        state.likePostLoading = true;
+        state.likePostDone = false;
+        state.likePostError = null;
+      })
+      .addCase(unlikePost.fulfilled, (state, action) => {
+        const post = state.mainPosts.find(v => v.id === action.payload.PostId);
+        // const post = _find(state.mainPosts, {id: action.payload.PostId});
+        state.likePostLoading = false;
+        state.likePostDone = true;
+        // _remove(post.Likers, {id: action.payload.UserId});
+        post.Likers = post.Likers.filter(v => v.id !== action.payload.UserId);
+      })
+
+      // .addCase(unlikePost.fulfilled, (state, action) => {
+      //   const post = _find(state.mainPosts, {id: action.payload.PostId});
+      //   state.likePostLoading = false;
+      //   state.likePostDone = true;
+      //   _remove(post.Likers, {id: action.payload.UserId});
+      // })
+      .addCase(unlikePost.rejected, (state, action: any) => {
+        state.likePostLoading = false;
+        state.likePostError = action.error.message;
+      })
+
+      // addComment
+      .addCase(addComment.pending, state => {
+        state.addCommentLoading = true;
+        state.addCommentDone = false;
+        state.addCommentError = null;
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        const post = state.mainPosts.find(v => v.id === action.payload.PostId);
+
+        // const post = _find(state.mainPosts, {id: action.payload.PostId});
+        state.addCommentLoading = false;
+        state.addCommentDone = true;
+        // singleposts.Comment.unshift(action.payload);
+        state.singlePost.Comments.push(action.payload);
+        post.Comments.push(action.payload);
+      })
+      .addCase(addComment.rejected, (state, action: any) => {
+        state.addCommentLoading = false;
+        state.addCommentError = action.error.message;
       })
 
       .addDefaultCase(state => state),

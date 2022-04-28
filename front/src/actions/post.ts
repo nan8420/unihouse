@@ -18,6 +18,7 @@ export const loadPosts = createAsyncThunk(
       return thunkAPI.rejectWithValue(error.response.data);
     }
   },
+
   // {
   //   condition: (data, { getState }) => {
   //     const { post } = getState();
@@ -29,6 +30,19 @@ export const loadPosts = createAsyncThunk(
   //     return true;
   //   },
   // }
+);
+
+export const loadPost = createAsyncThunk(
+  'post/loadPost',
+  async (data, {rejectWithValue}) => {
+    try {
+      console.log('data:', data);
+      const response = await axios.get(`/post/${data.postId}`);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
 );
 
 export const addPost = createAsyncThunk(
@@ -57,20 +71,39 @@ export const addPost = createAsyncThunk(
   },
 );
 
-// export const addPost = createAsyncThunk(
-//   'post/addPost',
-//   async (data: Object, thunkAPI) => {
-//     try {
-//       console.log('data:::', data);
-//       const response = await axios.post('/post/addPost', data);
-//       // const response = await axios.post('/user/addPost', data, {
-//       //   headers: {authorization: `Bearer ${data.accessToken}`},
-//       // });
-//       // console.log('response:::', response);
-//       thunkAPI.dispatch(userSlice.actions.addPostToMe(response.data.id));
-//       return response.data;
-//     } catch (error: any) {
-//       return thunkAPI.rejectWithValue(error.response.data);
-//     }
-//   },
-// );
+export const likePost = createAsyncThunk(
+  'post/likePost',
+  async (data: any, {rejectWithValue}) => {
+    try {
+      const response = await axios.patch(`/post/${data.postId}/like`); // PATCH /post/1/like
+      // console.log('response:', response);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const unlikePost = createAsyncThunk(
+  'post/unlikePost',
+  async (data: any, {rejectWithValue}) => {
+    try {
+      const response = await axios.delete(`/post/${data.postId}/like`); // DELETE /post/1/like
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const addComment = createAsyncThunk(
+  'post/addComment',
+  async (data, {rejectWithValue}) => {
+    try {
+      const response = await axios.post(`/post/${data.postId}/comment`, data); // POST /post/1/comment
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);

@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: 'lightgray',
     borderWidth: 1,
+    backgroundColor: 'white',
   },
 
   Posttxt: {

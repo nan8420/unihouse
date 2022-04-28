@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect, useRef} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -24,50 +24,84 @@ import CommentFlat from '../components/CommentFlat';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import {likePost, unlikePost, addComment, loadPost} from '../actions/post';
+import {useAppDispatch} from '../store';
+import {useSelector} from 'react-redux';
+import {RootState} from '../reducer/index';
+import useInput from '../hooks/useInput';
+dayjs.locale('ko');
 
 const Explain = () => {
+  const myid = useSelector((state: RootState) => state.user?.me?.id);
+  const {singlePost} = useSelector((state: RootState) => state.post);
   const route = useRoute<RouteProp<LoggedInParamList>>();
-
+  const dispatch = useAppDispatch();
   const post = route.params?.item;
-
   const [dot, setDot] = useState(false);
+  const [like, setLike] = useState(false);
+  const [likelength, setLikelength] = useState(post?.Likers.length);
+  const [commentinput, onChangeCommentinput] = useInput('');
+  // console.log('likelength:', likelength);
 
-  console.log('dot:', dot);
+  dayjs.extend(relativeTime);
+
+  const createdAt = post?.createdAt;
+
+  const day = dayjs(createdAt).fromNow();
+
   // console.log('??????????????????????');
   // console.log('post:', post);
+  // console.log('post?.Comments:', post?.Comments);
 
-  const comment = [
-    {id: 1, content: 'hello', UserId: 1, PostId: 2},
-    {id: 2, content: '', UserId: 1, PostId: 2},
-    {
-      id: 3,
-      content:
-        '2013년 일론 머스크는 제일 처음 초고속 교통시스템 ‘하이퍼루프’를 제안했다. 하이퍼루프는 진공에 가까운 튜브를 이용해 공기저항을 최소화한 뒤 그 안에 캡슐을 띄워 이동시키는 이동수단으로, 머스크는 이 방법을 이용하면 최고 시속 1220㎞ 운송이 가능하다고 밝혔다.',
-      UserId: 1,
-      PostId: 2,
-    },
-    {
-      id: 4,
-      content:
-        '엑스프라이즈는 기술 개발을 장려해 인류에게 혜택을 주기 위한 공공 대회를 설계하고 개최하는 미국의 비영리 단체다.  지난해 4월 미국 전기차 업체 테슬라의  ',
-      UserId: 1,
-      PostId: 2,
-    },
-    {id: 5, content: 'dzzzz', UserId: 1, PostId: 2},
-    {id: 7, content: '안녕하세요 제이름은 ~ 입니다.', UserId: 1, PostId: 2},
-    {id: 8, content: 'hello', UserId: 1, PostId: 2},
-    {id: 9, content: 'hello', UserId: 1, PostId: 2},
-    {id: 10, content: 'hello', UserId: 1, PostId: 2},
-    {id: 11, content: 'hello', UserId: 1, PostId: 2},
-    {id: 12, content: 'hello', UserId: 1, PostId: 2},
-    {id: 13, content: 'hello', UserId: 1, PostId: 2},
-    {id: 14, content: 'hello', UserId: 1, PostId: 2},
-    {id: 15, content: 'hello', UserId: 1, PostId: 2},
-  ];
+  const liked = post.Likers.find((v: any) => v.id === myid);
 
-  const renderItem = useCallback(({item}: {item: Object}) => {
-    return <CommentFlat item={item} />;
-  }, []);
+  useEffect(() => {
+    dispatch(loadPost({postId: post.id}));
+    // console.log('post::::', post);
+  }, [post]);
+
+  useEffect(() => {
+    if (liked) {
+      setLike(true);
+    }
+  }, [liked]);
+
+  // const comment = [
+  //   {id: 1, content: 'hello', UserId: 1, PostId: 2},
+  //   {id: 2, content: '', UserId: 1, PostId: 2},
+  //   {
+  //     id: 3,
+  //     content:
+  //       '2013년 일론 머스크는 제일 처음 초고속 교통시스템 ‘하이퍼루프’를 제안했다. 하이퍼루프는 진공에 가까운 튜브를 이용해 공기저항을 최소화한 뒤 그 안에 캡슐을 띄워 이동시키는 이동수단으로, 머스크는 이 방법을 이용하면 최고 시속 1220㎞ 운송이 가능하다고 밝혔다.',
+  //     UserId: 1,
+  //     PostId: 2,
+  //   },
+  //   {
+  //     id: 4,
+  //     content:
+  //       '엑스프라이즈는 기술 개발을 장려해 인류에게 혜택을 주기 위한 공공 대회를 설계하고 개최하는 미국의 비영리 단체다.  지난해 4월 미국 전기차 업체 테슬라의  ',
+  //     UserId: 1,
+  //     PostId: 2,
+  //   },
+  //   {id: 5, content: 'dzzzz', UserId: 1, PostId: 2},
+  //   {id: 7, content: '안녕하세요 제이름은 ~ 입니다.', UserId: 1, PostId: 2},
+  //   {id: 8, content: 'hello', UserId: 1, PostId: 2},
+  //   {id: 9, content: 'hello', UserId: 1, PostId: 2},
+  //   {id: 10, content: 'hello', UserId: 1, PostId: 2},
+  //   {id: 11, content: 'hello', UserId: 1, PostId: 2},
+  //   {id: 12, content: 'hello', UserId: 1, PostId: 2},
+  //   {id: 13, content: 'hello', UserId: 1, PostId: 2},
+  //   {id: 14, content: 'hello', UserId: 1, PostId: 2},
+  //   {id: 15, content: 'hello', UserId: 1, PostId: 2},
+  // ];
+
+  // const renderItem = useCallback(({item}: {item: Object}) => {
+  //   return <CommentFlat item={item} />;
+  // }, []);
 
   const dotfunc = useCallback(() => {
     setDot(prev => !prev);
@@ -81,27 +115,64 @@ const Explain = () => {
     console.log('adjustfunc:::::');
   }, []);
 
+  const likefunc = useCallback(() => {
+    if (!myid) {
+      Alert.alert('알림', '로그인을 해주세요');
+      return;
+    }
+
+    setLike(true);
+    setLikelength(likelength + 1);
+    dispatch(
+      likePost({
+        postId: post.id,
+      }),
+    );
+  }, [myid, likelength]);
+
+  const unlikefunc = useCallback(() => {
+    if (!myid) {
+      Alert.alert('알림', '로그인을 해주세요');
+      return;
+    }
+    setLike(false);
+    setLikelength(likelength - 1);
+
+    dispatch(
+      unlikePost({
+        postId: post.id,
+      }),
+    );
+  }, [myid, likelength]);
+
+  const commetsubmitfun = useCallback(() => {
+    console.log('commetsubmitfun:::::::::');
+    // scrollRef.current.scrollToend({duration: 10});
+    ScrollRef.current.scrollToEnd({duration: 10});
+    dispatch(addComment({content: commentinput, postId: post.id}));
+  }, [dispatch, commentinput]);
+
+  // console.log('liked:::', liked);
   const imagess = true;
   const dots = true;
+
+  const ScrollRef = useRef();
+
   return (
     <View style={styles.wrapper}>
-      <ScrollView style={styles.scrollviewcon}>
+      <ScrollView style={styles.scrollviewcon} ref={ScrollRef}>
         <View style={styles.first}>
           <View style={styles.abovecon}>
             <View style={styles.namedaycon}>
-              <Text style={styles.name}>Elon Musk</Text>
-              <Text style={styles.day}>a day ago</Text>
+              <Text style={styles.name}>{post.User?.nickname}</Text>
+              <Text style={styles.day}>{day}</Text>
             </View>
             <Pressable style={styles.dotcon} onPress={dotfunc}>
               <Entypo name="dots-three-vertical" size={18} color="black" />
             </Pressable>
           </View>
           <View style={styles.contentcon}>
-            <Text style={styles.contenttxt}>
-              Elon Reeve Musk FRS is an entrepreneur, investor, and business
-              magnate. He is the founder, CEO, and Chief Engineer at SpaceX;
-              early-stage investor
-            </Text>
+            <Text style={styles.contenttxt}>{post?.content}</Text>
           </View>
 
           {dots && (
@@ -126,18 +197,24 @@ const Explain = () => {
           )}
 
           <View style={styles.likecommentcon}>
-            <View style={styles.likecon}>
-              <AntDesign name="like2" size={18} color="#ed3972"></AntDesign>
-              <Text style={styles.like}>2</Text>
-            </View>
-
-            <View style={styles.likecon}>
+            {like ? (
+              <Pressable style={styles.likecon} onPress={unlikefunc}>
+                <AntDesign name="like1" size={18} color="#ed3972"></AntDesign>
+                <Text style={styles.like}>{likelength}</Text>
+              </Pressable>
+            ) : (
+              <Pressable style={styles.likecon} onPress={likefunc}>
+                <AntDesign name="like2" size={18} color="#ed3972"></AntDesign>
+                <Text style={styles.like}>{likelength}</Text>
+              </Pressable>
+            )}
+            <Pressable style={styles.likecon}>
               <FontAwesome
                 name="commenting-o"
                 size={18}
                 color="#676269"></FontAwesome>
-              <Text style={styles.comment}>2</Text>
-            </View>
+              <Text style={styles.comment}>{post?.Comments.length}</Text>
+            </Pressable>
           </View>
         </View>
 
@@ -147,14 +224,20 @@ const Explain = () => {
         <Text style={styles.subjecttxt}>Comments</Text>
         {/* </View> */}
 
-        {comment.map(item => (
-          <CommentFlat key={item.id} item={item} />
+        {singlePost?.Comments.map(v => (
+          <CommentFlat key={v.id} item={v} />
         ))}
       </ScrollView>
       <View style={styles.inputcon}>
         <TextInput
           style={styles.input}
-          placeholder="  댓글을 입력해주세요..."></TextInput>
+          placeholder="  댓글을 입력해주세요..."
+          value={commentinput}
+          onChangeText={onChangeCommentinput}></TextInput>
+        <Pressable style={styles.send} onPress={commetsubmitfun}>
+          <Text style={{color: '#0373fc'}}>게시</Text>
+          {/* <Ionicons name="send" size={18} color="#ed3972"></Ionicons> */}
+        </Pressable>
       </View>
     </View>
   );
@@ -266,7 +349,10 @@ const styles = StyleSheet.create({
 
   likecommentcon: {
     flexDirection: 'row',
+    // alignItems: 'flex-end',
+    // justifyContent: 'flex-end',
     // backgroundColor: 'lightblue',
+    paddingLeft: 10,
   },
 
   likecon: {
@@ -275,6 +361,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginRight: 15,
     right: -8,
+    // backgroundColor: 'lightblue',
   },
 
   like: {
@@ -308,13 +395,26 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.4,
     borderColor: '#b0b4b8',
     height: Dimensions.get('window').height / 15,
+    // flex: 1,
+    // backgroundColor: 'lightblue',
+    flexDirection: 'row',
   },
 
   input: {
     marginLeft: 5,
+    flex: 8,
     // backgroundColor: 'green',
     // width: 100,
     // height: Dimensions.get('window').height / 14,
+  },
+
+  send: {
+    flex: 1.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // width: 100,
+    // height: 100,
+    // backgroundColor: 'lightblue',
   },
 });
 

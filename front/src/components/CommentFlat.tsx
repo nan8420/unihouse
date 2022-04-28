@@ -26,7 +26,7 @@ const CommentFlat = ({item}: Props) => {
   return (
     <View style={styles.maincon}>
       <View style={styles.namedaycon}>
-        <Text style={styles.name}>Elon Musk</Text>
+        <Text style={styles.name}>{item?.User?.nickname}</Text>
         <Text style={styles.day}>a day ago</Text>
       </View>
       <View style={styles.contentcon}>
@@ -58,6 +58,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginHorizontal: 10,
     marginLeft: 15,
+    borderBottomWidth: 0.3,
+    borderColor: '#b0b4b8',
+    paddingBottom: 20,
     // flex: 1,
   },
 
