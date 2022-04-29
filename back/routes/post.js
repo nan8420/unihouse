@@ -2,7 +2,14 @@ const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
 const express = require("express");
-const { User, Post, Image, Comment, Notification } = require("../models");
+const {
+  User,
+  Post,
+  Image,
+  Comment,
+  Notification,
+  Likecomment,
+} = require("../models");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { verifyToken, verifyRefreshToken } = require("./middlewares");
@@ -64,6 +71,10 @@ router.get("/", verifyToken, async (req, res, next) => {
           as: "Likers",
           attributes: ["id"],
         },
+        {
+          model: Likecomment,
+          attributes: ["id", "CommentId", "PostId", "UserId"],
+        },
       ],
     });
     // console.log("posts::::", JSON.stringify(posts));
@@ -100,6 +111,10 @@ router.get("/:postId", async (req, res, next) => {
           model: User, // 좋아요 누른 사람
           as: "Likers",
           attributes: ["id"],
+        },
+        {
+          model: Likecomment,
+          attributes: ["id", "CommentId", "PostId", "UserId"],
         },
       ],
     });
@@ -172,11 +187,44 @@ router.post(
 router.patch("/:postId/like", verifyToken, async (req, res, next) => {
   // PATCH /post/1/like
   try {
-    const post = await Post.findOne({ where: { id: req.params.postId } });
-    // console.log("post:::", post);
+    // const post = await Post.findOne({ where: { id: req.params.postId } });
+
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+      include: [
+        {
+          model: User, // 좋아요 누른 사람
+          as: "Likers",
+          attributes: ["id"],
+        },
+      ],
+    });
+
+    // console.log("post:::", JSON.stringify(post));
+
     if (!post) {
       return res.status(403).send("게시글이 존재하지 않습니다.");
     }
+
+    console.log("post.Likers[0]:", post.Likers[0]);
+
+    if (post.Likers[0]) {
+      if (
+        post.Likers[0].Like?.PostId === post.id &&
+        post.Likers[0].Like?.UserId === req.userid
+      ) {
+        console.log("postlike 두번 요청됨");
+        return res.status(403).send("postlike 두번 요청됨");
+      }
+    }
+
+    // console.log("post.Likers:::", JSON.stringify(post.Likers[0].Like));
+    // console.log("post.id:", post.id);
+    // console.log("req.userid :", req.userid);
+
+    // console.log("post.Likers[0].Like:", post.Likers[0].Like.PostId);
+
+    // console.log("post.Likers[0].Like.UserId:", post.Likers[0].Like.UserId);
     await post.addLikers(req.userid);
     res.json({ PostId: post.id, UserId: req.userid });
   } catch (error) {
@@ -209,6 +257,7 @@ router.post("/:postId/comment", verifyToken, async (req, res, next) => {
     if (!post) {
       return res.status(403).send("존재하지 않는 게시글입니다.");
     }
+
     const comment = await Comment.create({
       content: req.body.content,
       PostId: parseInt(req.params.postId, 10),
@@ -230,4 +279,88 @@ router.post("/:postId/comment", verifyToken, async (req, res, next) => {
   }
 });
 
+router.patch("/commentLike", verifyToken, async (req, res, next) => {
+  // PATCH /post/1/like
+  try {
+    // console.log("hiiiiiiiiiiiiiiiiiiiiiiiiii");
+    console.log("req.body:::", req.body);
+    const post = await Post.findOne({ where: { id: req.body.postId } });
+    // console.log("post:::", post);
+    if (!post) {
+      return res.status(403).send("게시글이 존재하지 않습니다.");
+    }
+
+    const excommetlike = await Likecomment.findOne({
+      where: {
+        UserId: req.userid,
+        PostId: req.body.postId,
+        CommentId: req.body.commentId,
+      },
+      // attributes: ["id", "CommentId", "PostId", "UserId"],
+    });
+
+    if (excommetlike) {
+      return res.status(403).send("likecomment 두번 요청됨");
+    }
+    // console.log("excommetlike:::", excommetlike);
+    const likecomment = await Likecomment.create({
+      UserId: req.userid,
+      PostId: req.body.postId,
+      CommentId: req.body.commentId,
+    });
+
+    const fulllikecomment = await Likecomment.findOne({
+      where: { id: likecomment.id },
+      attributes: ["id", "CommentId", "PostId", "UserId"],
+    });
+    console.log(
+      "fulllikecomment::::",
+      JSON.stringify(fulllikecomment),
+      "enddddd"
+    );
+    res.json(fulllikecomment);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.patch("/commentUnLike", verifyToken, async (req, res, next) => {
+  // PATCH /post/1/like
+  try {
+    const post = await Post.findOne({ where: { id: req.body.postId } });
+    // console.log("post:::", post);
+    if (!post) {
+      return res.status(403).send("게시글이 존재하지 않습니다.");
+    }
+    const fulllikecomment = await Likecomment.findOne({
+      where: {
+        UserId: req.userid,
+        PostId: req.body.postId,
+        CommentId: req.body.commentId,
+      },
+      attributes: ["id", "CommentId", "PostId", "UserId"],
+    });
+
+    await Likecomment.destroy({
+      where: {
+        UserId: req.userid,
+        PostId: req.body.postId,
+        CommentId: req.body.commentId,
+      },
+    });
+
+    //  console.log("fulllikecomment::::",JSON.stringify(fulllikecomment),"enddddd");
+
+    res.json({
+      CommentId: req.body.commentId,
+      PostId: req.body.postId,
+      UserId: req.userid,
+      id: fulllikecomment.id,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
 module.exports = router;

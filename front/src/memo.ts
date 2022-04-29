@@ -1,74 +1,30 @@
-import React, {useEffect, useState, useCallback} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  ScrollView,
-} from 'react-native';
+import {Keyboard} from 'react-native';
 
-const Post = () => {
+const Explain = () => {
+  const commetsubmitfun = useCallback(() => {
+    ScrollRef.current.scrollToEnd({duration: 10});
+    Keyboard.dismis;
+  }, []);
+
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.inputContainer}>
-        <View style={styles.textInput}>
-          <TextInput
-            style={styles.input}
-            autoFocus={true}
-            placeholder="What's Happening?"
-            multiline={true}
-            numberOfLines={4}
-          />
-        </View>
+    <View style={styles.wrapper}>
+      <ScrollView style={styles.scrollviewcon} ref={ScrollRef}>
+        <View style={styles.first}></View>
+
+        {singlePost?.Comments.map(v => (
+          <CommentFlat key={v.id} item={v} />
+        ))}
+      </ScrollView>
+      <View style={styles.inputcon}>
+        <TextInput
+          style={styles.input}
+          placeholder="  comment..."
+          value={commentinput}
+          onChangeText={onChangeCommentinput}></TextInput>
+        <Pressable style={styles.send} onPress={commetsubmitfun}>
+          <Text style={{color: '#0373fc'}}>post</Text>
+        </Pressable>
       </View>
-      <View></View>
-    </ScrollView>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: 'lightblue'},
-  inputContainer: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-
-  textInput: {
-    flex: 1,
-    fontSize: 30,
-    marginRight: 10,
-  },
-  input: {
-    fontSize: 20,
-  },
-  attachment: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    position: 'absolute',
-    bottom: 0,
-    marginBottom: 10,
-  },
-  icon: {
-    marginRight: 20,
-    fontSize: 30,
-  },
-  image: {
-    aspectRatio: 4 / 5,
-  },
-});
-// const styles = StyleSheet.create({
-//   main: {
-//     width: '100%',
-//     backgroundColor: 'lightblue',
-//   },
-//   textInput: {
-//     backgroundColor: 'yellow',
-//   },
-// });
-
-export default Post;

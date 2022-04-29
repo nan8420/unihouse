@@ -22,6 +22,8 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.locale('ko');
 
+dayjs.extend(relativeTime);
+
 interface Props {
   item: any;
 }
@@ -30,8 +32,6 @@ const PostList = ({item}: Props) => {
   const navigation = useNavigation<NavigationProp<LoggedInParamList>>();
 
   // console.log('item:', item);
-
-  dayjs.extend(relativeTime);
 
   const createdAt = item?.createdAt;
 
@@ -70,7 +70,7 @@ const PostList = ({item}: Props) => {
               name="commenting-o"
               size={14}
               color="#60c494"></FontAwesome>
-            <Text style={styles.like}>{item?.Likers?.length}</Text>
+            <Text style={styles.like}>{item?.Comments?.length}</Text>
           </View>
         </View>
       </View>

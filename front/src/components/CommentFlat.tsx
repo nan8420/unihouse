@@ -16,18 +16,75 @@ import {
   SegmentedControlIOSBase,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import {commentLike, commentUnLike} from '../actions/post';
+import {useAppDispatch} from '../store/index';
+import {useSelector} from 'react-redux';
+import {RootState} from '../reducer/index';
+
+dayjs.locale('ko');
+dayjs.extend(relativeTime);
 
 interface Props {
   item: any;
 }
 
 const CommentFlat = ({item}: Props) => {
-  // console.log('item:', item);
+  const {singlePost, likeComment} = useSelector(
+    (state: RootState) => state.post,
+  );
+  const myid = useSelector((state: RootState) => state.user?.me?.id);
+  const dispatch = useAppDispatch();
+
+  const [like, setLike] = useState(false);
+  const arr1 = likeComment?.filter(v => v.CommentId === item.id);
+
+  const [likelength, setLikelength] = useState(arr1?.length);
+  // const [likelength, setLikelength] = useState(arr1?.length);
+
+  // const [likelength, setLikelength] = useState(post?.Likers.length);
+  const createdAt = item?.createdAt;
+
+  const day = dayjs(createdAt).fromNow();
+
+  //  좋아요 상태
+  const liked1 = likeComment?.filter(v => v.CommentId === item.id);
+  const liked = liked1?.find(v => v.UserId === myid);
+
+  // console.log('likelength:', likelength);
+
+  // console.log('likeComment:', likeComment);
+  useEffect(() => {
+    if (liked) {
+      setLike(true);
+    }
+  }, [liked]);
+
+  const commentlikefunc = useCallback(() => {
+    console.log('commentlikefunc:');
+
+    setLike(prev => !prev);
+    setLikelength(likelength + 1);
+
+    dispatch(commentLike({postId: item.PostId, commentId: item.id}));
+  }, [dispatch, likelength]);
+
+  const commentUnlikefunc = useCallback(() => {
+    console.log('Unlike:');
+    setLike(prev => !prev);
+    setLikelength(likelength - 1);
+
+    dispatch(commentUnLike({postId: item.PostId, commentId: item.id}));
+  }, [dispatch, likelength]);
+
+  // console.log('liked:', liked);
+
   return (
     <View style={styles.maincon}>
       <View style={styles.namedaycon}>
         <Text style={styles.name}>{item?.User?.nickname}</Text>
-        <Text style={styles.day}>a day ago</Text>
+        <Text style={styles.day}>{day}</Text>
       </View>
       <View style={styles.contentcon}>
         <Text style={styles.contenttxt}>{item.content}</Text>
@@ -39,14 +96,25 @@ const CommentFlat = ({item}: Props) => {
           <Text style={styles.liketext}>Like!</Text>
         </View>
 
-        <Pressable style={styles.likebtn}>
-          <Entypo
-            style={styles.like2}
-            name="heart"
-            size={18}
-            color="red"></Entypo>
-          <Text style={styles.like2txt}>2</Text>
-        </Pressable>
+        {like ? (
+          <Pressable style={styles.likebtn} onPress={commentUnlikefunc}>
+            <Entypo
+              style={styles.like2}
+              name="heart"
+              size={18}
+              color="red"></Entypo>
+            <Text style={styles.like2txt}>{likelength}</Text>
+          </Pressable>
+        ) : (
+          <Pressable style={styles.likebtn} onPress={commentlikefunc}>
+            <Entypo
+              style={styles.like2}
+              name="heart-outlined"
+              size={18}
+              color="red"></Entypo>
+            <Text style={styles.like2txt}>{likelength}</Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );

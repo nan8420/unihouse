@@ -35,7 +35,7 @@ const PostList = ({navigation}: PostListScreenProps) => {
     dispatch(loadPosts());
   }, [dispatch]);
 
-  const renderItem = useCallback(({item}: {item: Object}) => {
+  const renderItem = useCallback(({item}: {item: any}) => {
     return <PostFlat item={item} />;
   }, []);
 
@@ -62,7 +62,8 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
 
-    // backgroundColor: 'orange'
+    // backgroundColor: 'lightblue',
+    marginBottom: 10,
   },
 
   gotoPost: {

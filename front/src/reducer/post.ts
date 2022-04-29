@@ -6,6 +6,8 @@ import {
   unlikePost,
   addComment,
   loadPost,
+  commentLike,
+  commentUnLike,
 } from '../actions/post';
 
 export const initialState = {
@@ -32,6 +34,16 @@ export const initialState = {
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
+
+  likeComment: [],
+
+  commentLikeLoading: false,
+  commentLikeDone: false,
+  commentLikeError: null,
+
+  commentUnLikeLoading: false,
+  commentUnLikeDone: false,
+  commentUnLikeError: null,
 };
 
 const postSlice = createSlice({
@@ -75,6 +87,7 @@ const postSlice = createSlice({
         // console.log(action.payload);
         state.loadPostLoading = false;
         state.loadPostDone = true;
+        state.likeComment = action.payload.Likecomments;
         state.singlePost = action.payload;
       })
       .addCase(loadPost.rejected, (state, action) => {
@@ -160,16 +173,54 @@ const postSlice = createSlice({
       .addCase(addComment.fulfilled, (state, action) => {
         const post = state.mainPosts.find(v => v.id === action.payload.PostId);
 
-        // const post = _find(state.mainPosts, {id: action.payload.PostId});
         state.addCommentLoading = false;
         state.addCommentDone = true;
-        // singleposts.Comment.unshift(action.payload);
         state.singlePost.Comments.push(action.payload);
         post.Comments.push(action.payload);
       })
       .addCase(addComment.rejected, (state, action: any) => {
         state.addCommentLoading = false;
         state.addCommentError = action.error.message;
+      })
+
+      // commentLike
+      .addCase(commentLike.pending, state => {
+        state.commentLikeLoading = true;
+        state.commentLikeDone = false;
+        state.commentLikeError = null;
+      })
+      .addCase(commentLike.fulfilled, (state: any, action) => {
+        // const post = state.mainPosts.find(v => v.id === action.payload.PostId);
+        const post = state.likeComment;
+        post.push(action.payload);
+        state.commentLikeLoading = false;
+        state.commentLikeDone = true;
+        // post.Likers.push({id: action.payload.UserId});
+      })
+
+      .addCase(commentLike.rejected, (state, action: any) => {
+        state.commentLikeLoading = false;
+        state.commentLikeError = action.error.message;
+      })
+
+      // commentUnLike
+
+      .addCase(commentUnLike.pending, state => {
+        state.commentUnLikeLoading = true;
+        state.commentUnLikeDone = false;
+        state.commentUnLikeError = null;
+      })
+      .addCase(commentUnLike.fulfilled, (state, action) => {
+        state.likeComment = state.likeComment.filter(
+          v => v.id !== action.payload.id,
+        );
+        state.commentUnLikeLoading = false;
+        state.commentUnLikeDone = true;
+      })
+
+      .addCase(commentUnLike.rejected, (state, action: any) => {
+        state.commentUnLikeLoading = false;
+        state.commentUnLikeError = action.error.message;
       })
 
       .addDefaultCase(state => state),
