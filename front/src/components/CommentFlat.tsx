@@ -22,11 +22,12 @@ import {commentLike, commentUnLike} from '../actions/post';
 import {useAppDispatch} from '../store/index';
 import {useSelector} from 'react-redux';
 import {RootState} from '../reducer/index';
-
+import {test2} from '../reducer/post';
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
 interface Props {
+  // item: test2;
   item: any;
 }
 
@@ -34,16 +35,15 @@ const CommentFlat = ({item}: Props) => {
   const {singlePost, likeComment} = useSelector(
     (state: RootState) => state.post,
   );
-  const myid = useSelector((state: RootState) => state.user?.me?.id);
+  const myid = useSelector((state: test2 | any) => state.user?.me?.id);
   const dispatch = useAppDispatch();
 
   const [like, setLike] = useState(false);
+
   const arr1 = likeComment?.filter(v => v.CommentId === item.id);
 
   const [likelength, setLikelength] = useState(arr1?.length);
-  // const [likelength, setLikelength] = useState(arr1?.length);
 
-  // const [likelength, setLikelength] = useState(post?.Likers.length);
   const createdAt = item?.createdAt;
 
   const day = dayjs(createdAt).fromNow();
@@ -52,9 +52,7 @@ const CommentFlat = ({item}: Props) => {
   const liked1 = likeComment?.filter(v => v.CommentId === item.id);
   const liked = liked1?.find(v => v.UserId === myid);
 
-  // console.log('likelength:', likelength);
-
-  // console.log('likeComment:', likeComment);
+  // console.log('singlePost:', singlePost);
   useEffect(() => {
     if (liked) {
       setLike(true);
@@ -65,7 +63,7 @@ const CommentFlat = ({item}: Props) => {
     console.log('commentlikefunc:');
 
     setLike(prev => !prev);
-    setLikelength(likelength + 1);
+    // setLikelength(likelength + 1);
 
     dispatch(commentLike({postId: item.PostId, commentId: item.id}));
   }, [dispatch, likelength]);
@@ -73,7 +71,7 @@ const CommentFlat = ({item}: Props) => {
   const commentUnlikefunc = useCallback(() => {
     console.log('Unlike:');
     setLike(prev => !prev);
-    setLikelength(likelength - 1);
+    // setLikelength(likelength - 1);
 
     dispatch(commentUnLike({postId: item.PostId, commentId: item.id}));
   }, [dispatch, likelength]);
@@ -103,7 +101,8 @@ const CommentFlat = ({item}: Props) => {
               name="heart"
               size={18}
               color="red"></Entypo>
-            <Text style={styles.like2txt}>{likelength}</Text>
+            {/* <Text style={styles.like2txt}>{likelength}</Text> */}
+            {/* <Text style={styles.like2txt}>{arr1?.length}</Text> */}
           </Pressable>
         ) : (
           <Pressable style={styles.likebtn} onPress={commentlikefunc}>
@@ -112,7 +111,8 @@ const CommentFlat = ({item}: Props) => {
               name="heart-outlined"
               size={18}
               color="red"></Entypo>
-            <Text style={styles.like2txt}>{likelength}</Text>
+            {/* <Text style={styles.like2txt}>{likelength}</Text> */}
+            {/* <Text style={styles.like2txt}>{arr1?.length}</Text> */}
           </Pressable>
         )}
       </View>

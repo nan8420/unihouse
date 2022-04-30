@@ -12,7 +12,7 @@ import {
   Dimensions,
 } from 'react-native';
 
-const Loading = ({label}) => {
+const Loading = () => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     // console.log('처음');
@@ -34,7 +34,7 @@ const Loading = ({label}) => {
     </View>
   ) : (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.label}></Text>
     </View>
   );
 };

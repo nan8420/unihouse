@@ -19,6 +19,7 @@ import {RootState} from '../reducer/index';
 import {loadPosts} from '../actions/post';
 import {useAppDispatch} from '../store';
 import Loading from '../components/Loading';
+import {test2} from '../reducer/post';
 type PostListScreenProps = NativeStackScreenProps<
   LoggedInParamList,
   'MainPage'
@@ -35,7 +36,7 @@ const PostList = ({navigation}: PostListScreenProps) => {
     dispatch(loadPosts());
   }, [dispatch]);
 
-  const renderItem = useCallback(({item}: {item: any}) => {
+  const renderItem = useCallback(({item}: {item: test2}) => {
     return <PostFlat item={item} />;
   }, []);
 
@@ -47,9 +48,9 @@ const PostList = ({navigation}: PostListScreenProps) => {
     <View style={styles.main}>
       <FlatList
         data={mainPosts}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         renderItem={renderItem}
-        ListEmptyComponent={<Loading label={''} />}
+        ListEmptyComponent={<Loading />}
       />
       <Pressable style={styles.gotoPost} onPress={gotoPost}>
         <Text style={styles.Posttxt}>Post</Text>

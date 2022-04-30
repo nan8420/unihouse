@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac5e1340-ad9c-461c-8f99-23ed3a12a0b5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../back/routes/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/../back/routes/post.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/AppInner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/AppInner.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/actions/post.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/actions/post.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/components/CommentFlat.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/components/CommentFlat.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/src/components/PostFlat.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/components/PostFlat.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/memo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/memo.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/pages/Explain.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/Explain.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/src/pages/PostList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/PostList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/pages/MainPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/MainPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/pages/Post.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/Post.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/reducer/post.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/reducer/post.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +19,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\nan84\.android\avd\Nexus_5_API_30_2.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\nan84\.android\avd\Nexus_5_API_30_3.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />

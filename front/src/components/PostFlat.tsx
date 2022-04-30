@@ -28,7 +28,7 @@ interface Props {
   item: any;
 }
 
-const PostList = ({item}: Props) => {
+const PostFlat = ({item}: Props) => {
   const navigation = useNavigation<NavigationProp<LoggedInParamList>>();
 
   // console.log('item:', item);
@@ -38,7 +38,7 @@ const PostList = ({item}: Props) => {
   const day = dayjs(createdAt).fromNow();
 
   const gotoExplain = useCallback(() => {
-    navigation.push('Explain', {item: item});
+    navigation.navigate('Explain', {item: item});
   }, [navigation, item]);
 
   return (
@@ -176,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostList;
+export default PostFlat;

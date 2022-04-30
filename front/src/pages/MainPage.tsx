@@ -34,8 +34,6 @@ const MainPage = () => {
         name="Explain"
         component={Explain}
         options={{
-          // headerStyle: {backgroundColor: 'papayawhip'},
-          // headerTitle: 'hello',
           headerShown: false,
         }}
       />

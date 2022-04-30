@@ -50,16 +50,9 @@ const Post = ({navigation}: PostListScreenProps) => {
   }>();
   const [preview, setPreview] = useState<{uri: string}>();
 
-  // console.log(' image:', image);
-  // console.log(' content:', content);
   const onResponse = useCallback(async response => {
-    // console.log(response.width, response.height, response.exif);
-    // console.log('response:::', response);
-    // console.log('response.exif:', response.exif);
-
     setPreview({uri: `data:${response.mime};base64,${response.data}`});
     const orientation = (response.exif as any)?.Orientation;
-    // console.log('orientation', orientation);
     return ImageResizer.createResizedImage(
       response.path,
       600,
@@ -80,7 +73,6 @@ const Post = ({navigation}: PostListScreenProps) => {
 
   const onTakePhoto = useCallback(() => {
     // 이미지 촬영
-    // console.log('onTakePhoto:', onTakePhoto);
     return ImagePicker.openCamera({
       includeBase64: true,
       includeExif: true,

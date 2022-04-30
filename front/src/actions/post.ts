@@ -7,6 +7,11 @@ import postSlice from '../reducer/post';
 
 axios.defaults.baseURL = Config.API_URL;
 
+type DataType = {
+  content?: string;
+  postId?: string;
+};
+
 export const loadPosts = createAsyncThunk(
   'post/loadPosts',
   async (data: any, thunkAPI) => {
@@ -34,11 +39,12 @@ export const loadPosts = createAsyncThunk(
 
 export const loadPost = createAsyncThunk(
   'post/loadPost',
-  async (data, {rejectWithValue}) => {
+  async (data: DataType, {rejectWithValue}) => {
     try {
       // console.log('data:', data);
+      // console.log('typeof', typeof data.postId);
       const response = await axios.get(`/post/${data.postId}`);
-      console.log('response:::', response);
+      // console.log('response:::', response);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -50,6 +56,7 @@ export const addPost = createAsyncThunk(
   'post/addPost',
   async (data: Object, thunkAPI) => {
     try {
+      console.log('data:', data);
       const accessToken = await EncryptedStorage.getItem('accessToken');
 
       const response = await axios.post('/post/addPost', data, {
@@ -99,8 +106,9 @@ export const unlikePost = createAsyncThunk(
 
 export const addComment = createAsyncThunk(
   'post/addComment',
-  async (data, {rejectWithValue}) => {
+  async (data: DataType, {rejectWithValue}) => {
     try {
+      // console.log('data:', data);
       const response = await axios.post(`/post/${data.postId}/comment`, data); // POST /post/1/comment
       return response.data;
     } catch (error: any) {
