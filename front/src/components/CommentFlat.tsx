@@ -22,12 +22,12 @@ import {commentLike, commentUnLike} from '../actions/post';
 import {useAppDispatch} from '../store/index';
 import {useSelector} from 'react-redux';
 import {RootState} from '../reducer/index';
-import {test2} from '../reducer/post';
+import {maintypes} from '../reducer/post';
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
 interface Props {
-  // item: test2;
+  // item: maintypes;
   item: any;
 }
 
@@ -35,7 +35,7 @@ const CommentFlat = ({item}: Props) => {
   const {singlePost, likeComment} = useSelector(
     (state: RootState) => state.post,
   );
-  const myid = useSelector((state: test2 | any) => state.user?.me?.id);
+  const myid = useSelector((state: maintypes | any) => state.user?.me?.id);
   const dispatch = useAppDispatch();
 
   const [like, setLike] = useState(false);
@@ -91,7 +91,15 @@ const CommentFlat = ({item}: Props) => {
       <View style={styles.likecon}>
         <View style={styles.replylikecon}>
           <Text style={styles.replytxt}>Reply</Text>
-          <Text style={styles.liketext}>Like!</Text>
+          {like ? (
+            <Pressable onPress={commentUnlikefunc}>
+              <Text style={styles.unliketext}>Like!</Text>
+            </Pressable>
+          ) : (
+            <Pressable onPress={commentlikefunc}>
+              <Text style={styles.liketext}>Like!</Text>
+            </Pressable>
+          )}
         </View>
 
         {like ? (
@@ -134,7 +142,8 @@ const styles = StyleSheet.create({
 
   namedaycon: {
     flexDirection: 'row',
-
+    // justifyContent: 'center',
+    alignItems: 'center',
     // justifyContent: 'center',
   },
 
@@ -156,7 +165,6 @@ const styles = StyleSheet.create({
 
   likecon: {
     // backgroundColor: 'lightblue',
-
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -168,6 +176,8 @@ const styles = StyleSheet.create({
   },
 
   replytxt: {color: '#918d91', fontSize: 15},
+
+  unliketext: {marginLeft: 20, color: 'red', fontSize: 15},
 
   liketext: {marginLeft: 20, color: '#918d91', fontSize: 15},
 

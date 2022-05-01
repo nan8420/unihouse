@@ -19,7 +19,7 @@ import {RootState} from '../reducer/index';
 import {loadPosts} from '../actions/post';
 import {useAppDispatch} from '../store';
 import Loading from '../components/Loading';
-import {test2} from '../reducer/post';
+import {maintypes} from '../reducer/post';
 type PostListScreenProps = NativeStackScreenProps<
   LoggedInParamList,
   'MainPage'
@@ -36,7 +36,7 @@ const PostList = ({navigation}: PostListScreenProps) => {
     dispatch(loadPosts());
   }, [dispatch]);
 
-  const renderItem = useCallback(({item}: {item: test2}) => {
+  const renderItem = useCallback(({item}: {item: maintypes}) => {
     return <PostFlat item={item} />;
   }, []);
 

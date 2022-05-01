@@ -15,8 +15,6 @@ const jwt = require("jsonwebtoken");
 const { verifyToken, verifyRefreshToken } = require("./middlewares");
 const app = express();
 
-// app.use("/", express.static(path.join(__dirname, "uploads")));
-
 try {
   fs.readdirSync("uploads");
 } catch (error) {
@@ -37,7 +35,7 @@ const upload = multer({
 
 router.get("/", verifyToken, async (req, res, next) => {
   try {
-    console.log("loadpostsssssss");
+    console.log("loadposts");
     const where = {};
     if (parseInt(req.query.lastId, 10)) {
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
@@ -80,13 +78,14 @@ router.get("/", verifyToken, async (req, res, next) => {
     // console.log("posts::::", JSON.stringify(posts));
     res.status(200).json(posts);
   } catch (error) {
+    next(error);
     console.error(error);
   }
-  next(error);
 });
 
 router.get("/:postId", async (req, res, next) => {
   try {
+    console.log("이건아님!!!!!!!!!!!!!1");
     const post = await Post.findOne({
       where: { id: req.params.postId },
       include: [
@@ -146,7 +145,7 @@ router.post(
         await post.addImages(image);
       }
 
-      const fullPost = await Post.findOne({
+      await Post.findOne({
         where: { id: post.id },
         include: [
           {

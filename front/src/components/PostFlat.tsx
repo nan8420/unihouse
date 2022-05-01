@@ -113,9 +113,16 @@ const styles = StyleSheet.create({
 
   second: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
 
-  nickname: {color: '#47a877', fontSize: 15, fontWeight: '600'},
+  nickname: {
+    // color: '#47a877',
+    // color: '#66706f',
+    color: 'black',
+    fontSize: 16,
+    // fontWeight: '600',
+  },
 
   day: {marginLeft: 10, fontSize: 13, color: '#959a9e', top: 1},
 

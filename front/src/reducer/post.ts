@@ -10,7 +10,7 @@ import {
   commentUnLike,
 } from '../actions/post';
 
-export interface test2 {
+export interface maintypes {
   PostId?: number;
 
   Comments?: IComment[] | null;
@@ -78,7 +78,7 @@ interface ISinglePost {
 interface IInitialState {
   singlePost: ISinglePost | null;
 
-  mainPosts: test2[];
+  mainPosts: maintypes[];
 
   // mainPosts: Array<{
   //   id?: number;
@@ -185,6 +185,7 @@ const postSlice = createSlice({
   reducers: {
     purePost(state) {
       state.mainPosts = [];
+      state.singlePost = null;
     },
   },
   extraReducers: builder =>
@@ -196,16 +197,19 @@ const postSlice = createSlice({
         state.loadPostsDone = false;
         state.loadPostsError = null;
       })
-      .addCase(loadPosts.fulfilled, (state, action: PayloadAction<test2>) => {
-        // console.log('action:!!!!:', action);
-        state.loadPostsLoading = false;
-        state.loadPostsDone = true;
-        state.mainPosts = state.mainPosts.concat(action.payload);
+      .addCase(
+        loadPosts.fulfilled,
+        (state, action: PayloadAction<maintypes>) => {
+          // console.log('action:!!!!:', action);
+          state.loadPostsLoading = false;
+          state.loadPostsDone = true;
+          state.mainPosts = state.mainPosts.concat(action.payload);
 
-        // state.mainPosts = concat(state.mainPosts, action.payload);
+          // state.mainPosts = concat(state.mainPosts, action.payload);
 
-        // state.hasMorePosts = action.payload.length === 10;
-      })
+          // state.hasMorePosts = action.payload.length === 10;
+        },
+      )
       .addCase(loadPosts.rejected, (state, action) => {
         state.loadPostsLoading = false;
         state.loadPostsError = action.error.message;
@@ -217,13 +221,16 @@ const postSlice = createSlice({
         state.loadPostDone = false;
         state.loadPostError = null;
       })
-      .addCase(loadPost.fulfilled, (state, action: PayloadAction<test2>) => {
-        console.log('action::::', action.payload);
-        state.loadPostLoading = false;
-        state.loadPostDone = true;
-        state.likeComment = action.payload.Likecomments;
-        state.singlePost = action.payload;
-      })
+      .addCase(
+        loadPost.fulfilled,
+        (state, action: PayloadAction<maintypes>) => {
+          console.log('action::::', action.payload);
+          state.loadPostLoading = false;
+          state.loadPostDone = true;
+          state.likeComment = action.payload.Likecomments;
+          state.singlePost = action.payload;
+        },
+      )
       .addCase(loadPost.rejected, (state, action) => {
         state.loadPostLoading = false;
         state.loadPostError = action.error.message;
@@ -253,7 +260,7 @@ const postSlice = createSlice({
         state.likePostError = null;
       })
       .addCase(likePost.fulfilled, (state, action) => {
-        console.log('action?!!:', action);
+        // console.log('action?!!:', action);
         // const post = find(state.mainPosts, {id: action.payload.PostId});
         const post = state.mainPosts.find(v => v.id === action.payload.PostId);
         // const post = find(state.mainPosts, {id: action.payload.PostId});
@@ -262,12 +269,6 @@ const postSlice = createSlice({
         post?.Likers?.push({id: action.payload.UserId});
       })
 
-      // .addCase(likePost.fulfilled, (state, action) => {
-      //   const post = find(state.mainPosts, {id: action.payload.PostId});
-      //   state.likePostLoading = false;
-      //   state.likePostDone = true;
-      //   post.Likers.push({id: action.payload.UserId});
-      // })
       .addCase(likePost.rejected, (state, action) => {
         state.likePostLoading = false;
         state.likePostError = action.error.message;
@@ -310,15 +311,20 @@ const postSlice = createSlice({
         state.addCommentError = null;
       })
 
-      .addCase(addComment.fulfilled, (state, action: PayloadAction<test2>) => {
-        // console.log('action:::', action);
-        const post = state.mainPosts.find(v => v.id === action.payload.PostId);
+      .addCase(
+        addComment.fulfilled,
+        (state, action: PayloadAction<maintypes>) => {
+          // console.log('action:::', action);
+          const post = state.mainPosts.find(
+            v => v.id === action.payload.PostId,
+          );
 
-        state.addCommentLoading = false;
-        state.addCommentDone = true;
-        state.singlePost?.Comments?.push(action.payload);
-        post?.Comments?.push(action.payload);
-      })
+          state.addCommentLoading = false;
+          state.addCommentDone = true;
+          state.singlePost?.Comments?.push(action.payload);
+          post?.Comments?.push(action.payload);
+        },
+      )
 
       // .addCase(addComment.fulfilled, (state, action) => {
       //   const post = state.mainPosts.find(v => v.id === action.payload.PostId);

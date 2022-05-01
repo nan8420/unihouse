@@ -35,13 +35,12 @@ import {RootState} from '../reducer/index';
 import useInput from '../hooks/useInput';
 import Config from 'react-native-config';
 import {Keyboard} from 'react-native';
-import {test2} from '../reducer/post';
+import {maintypes} from '../reducer/post';
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
 const Explain = () => {
-  const myid = useSelector((state: test2 | any) => state.user.me?.id);
-  // const {me} = useSelector((state: RootState) => state.user);
+  const myid = useSelector((state: maintypes | any) => state.user.me?.id);
 
   const {singlePost} = useSelector((state: RootState) => state.post);
   const route = useRoute<RouteProp<LoggedInParamList>>();
@@ -53,22 +52,16 @@ const Explain = () => {
   const [likelength, setLikelength] = useState(post?.Likers?.length);
   const [commentinput, onChangeCommentinput] = useInput('');
   const [modal, setModal] = useState(false);
-  // console.log('likelength:', likelength);
 
   const createdAt = post?.createdAt;
-
   const day = dayjs(createdAt).fromNow();
   const ScrollRef = useRef<any>();
 
-  // console.log('??????????????????????');
-  // console.log('post:', post);
-  // console.log('post?.Comments:', post?.Comments);
-
+  // 좋아요 상태
   const liked = post?.Likers?.find((v: any) => v.id === myid);
 
   useEffect(() => {
     dispatch(loadPost({postId: post?.id}));
-    // console.log('post::::', post);
   }, [post]);
 
   useEffect(() => {
@@ -78,13 +71,10 @@ const Explain = () => {
   }, [liked]);
 
   const removefunc = useCallback(() => {
-    console.log('removefunc::::');
-    setDot(prev => !prev);
     setModal(prev => !prev);
   }, []);
 
   const adjustfunc = useCallback(() => {
-    console.log('adjustfunc:::::');
     setDot(prev => !prev);
     setModal(prev => !prev);
   }, []);
@@ -120,8 +110,11 @@ const Explain = () => {
   }, [myid, likelength]);
 
   const commetsubmitfun = useCallback(() => {
+    if (!commentinput || !commentinput.trim()) {
+      return Alert.alert('알림', '댓글을 입력하세요.');
+    }
     console.log('commetsubmitfun:::::::::');
-    // scrollRef.current.scrollToend({duration: 10});
+    onChangeCommentinput('');
     ScrollRef.current.scrollToEnd({duration: 10});
     Keyboard.dismiss();
     dispatch(addComment({content: commentinput, postId: post?.id}));
@@ -199,7 +192,7 @@ const Explain = () => {
               <FontAwesome
                 name="commenting-o"
                 size={18}
-                color="#676269"></FontAwesome>
+                color="#60c494"></FontAwesome>
               <Text style={styles.comment}>{singlePost?.Comments?.length}</Text>
             </Pressable>
           </View>
@@ -259,7 +252,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // flexDirection: 'row',
     // backgroundColor: 'lightgreen',
-
+    paddingLeft: 10,
     // left: 20,
     // marginTop: 20,
     // marginLeft: 20,
@@ -267,12 +260,12 @@ const styles = StyleSheet.create({
 
   name: {
     fontSize: 16,
-    fontWeight: '600',
+    // fontWeight: '600',
     // fontWeight: 'bold',
     color: 'black',
   },
 
-  day: {color: '#959a9e'},
+  day: {color: '#959a9e', marginTop: 7},
 
   dotcon: {
     top: 10,
@@ -292,8 +285,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     position: 'absolute',
     width: 70,
-    height: 90,
-    right: 15,
+    top: -10,
+    height: 75,
+    right: 16,
     // justifyContent: 'center',
     // alignItems: 'center',s
     borderWidth: 0.5,
@@ -321,11 +315,13 @@ const styles = StyleSheet.create({
   contentcon: {
     flex: 3,
     // backgroundColor: '#b38dd9',
+    marginLeft: 13,
     marginTop: 10,
+    top: 10,
   },
 
   contenttxt: {
-    color: '#2c2a2e',
+    // color: '#2c2a2e',
   },
 
   Imagecon: {
@@ -350,7 +346,7 @@ const styles = StyleSheet.create({
   likecommentcon: {
     flexDirection: 'row',
     // alignItems: 'flex-end',
-    // justifyContent: 'flex-end',
+    justifyContent: 'flex-end',
     // backgroundColor: 'lightblue',
     paddingLeft: 10,
   },
@@ -365,7 +361,7 @@ const styles = StyleSheet.create({
   },
 
   like: {
-    color: '#ed3972',
+    // color: '#ed3972',
     right: -4,
   },
 
@@ -389,7 +385,7 @@ const styles = StyleSheet.create({
   },
 
   inputcon: {
-    // backgroundColor: 'lightblue',
+    backgroundColor: 'white',
     // width: 100,
     // height: 100,
     borderTopWidth: 0.4,

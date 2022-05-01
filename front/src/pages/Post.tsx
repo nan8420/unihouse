@@ -180,8 +180,9 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 80,
     paddingHorizontal: 20,
-    fontSize: 20,
-    color: '#000',
+    fontSize: 18,
+    color: '#494f4e',
+    // color: '#000',
     // backgroundColor: 'lightblue',
   },
 

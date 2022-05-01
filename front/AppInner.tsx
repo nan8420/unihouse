@@ -6,6 +6,7 @@ import {Alert} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
@@ -13,7 +14,7 @@ import SignUp from './src/pages/SignUp';
 import SignIn from './src/pages/SignIn';
 import Hey from './src/pages/Hey';
 import MainPage from './src/pages/MainPage';
-import Explain from './src/pages/Explain';
+import Info from './src/pages/Info';
 import {useAppDispatch} from './src/store';
 import {RootState} from './src/reducer/index';
 import userSlice from './src/reducer/user';
@@ -21,15 +22,15 @@ import {loadMyInfo} from './src/actions/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import usePermissions from './src/hooks/usePermissions';
-import {test2} from './src/reducer/post';
+import {maintypes} from './src/reducer/post';
 
 export type LoggedInParamList = {
   MainPage: undefined;
   PostList: undefined;
   Post: undefined;
   Explain: any;
-
-  // Explain: {item: test2};
+  Info: undefined;
+  // Explain: {item: maintypes};
 };
 
 export type RootStackParamList = {
@@ -166,12 +167,25 @@ const AppInnger = () => {
           component={MainPage}
           options={{
             headerShown: false,
-            tabBarStyle: {display: 'none'},
+            // tabBarStyle: {display: 'none'},
 
             tabBarIcon: ({color}) => (
-              <FontAwesome5 name="list" size={20} style={{color}} />
+              <FontAwesome5 name="home" size={20} style={{color}} />
             ),
-            tabBarActiveTintColor: 'blue',
+            tabBarActiveTintColor: '#7cc2bd',
+          }}
+        />
+
+        <Tab.Screen
+          name="Info"
+          component={Info}
+          options={{
+            headerShown: false,
+
+            tabBarIcon: ({color}) => (
+              <FontAwesome5 name="info" size={20} style={{color}} />
+            ),
+            tabBarActiveTintColor: '#7cc2bd',
           }}
         />
       </Tab.Navigator>

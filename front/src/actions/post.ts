@@ -10,13 +10,16 @@ axios.defaults.baseURL = Config.API_URL;
 type DataType = {
   content?: string;
   postId?: string;
+  lastId?: string;
 };
 
 export const loadPosts = createAsyncThunk(
   'post/loadPosts',
-  async (data: any, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`/post?lastId=${data?.lastId || 0}`);
+      // const response = await axios.get(`/post?lastId=${data?.lastId || 0}`);
+      const response = await axios.get(`/post?lastId=${0}`);
+
       // console.log('response:::', response);
       return response.data;
     } catch (error: any) {
@@ -87,6 +90,7 @@ export const likePost = createAsyncThunk(
       // console.log('response:', response);
       return response.data;
     } catch (error: any) {
+      // console.log('error:::', error);
       return rejectWithValue(error.response.data);
     }
   },
