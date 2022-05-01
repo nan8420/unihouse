@@ -1,3 +1,5 @@
+// 포트폴리오를 위해 .env 의도적으로 깃헙에 올림
+
 const fs = require("fs");
 const multer = require("multer");
 const path = require("path");

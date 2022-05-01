@@ -13,6 +13,7 @@
       <change beforePath="$PROJECT_DIR$/../front/AppInner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/AppInner.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/actions/post.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/actions/post.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/components/CommentFlat.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/components/CommentFlat.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/components/PostFlat.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/components/PostFlat.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/memo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/memo.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/pages/Explain.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/Explain.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/pages/PostList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/PostList.tsx" afterDir="false" />
@@ -23,7 +24,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\nan84\.android\avd\Nexus_5_API_30.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[R3CM60A9HVY]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />

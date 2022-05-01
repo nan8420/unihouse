@@ -2,9 +2,7 @@ const jwt = require("jsonwebtoken");
 
 require("dotenv").config();
 
-const JWtAccessToken = "JWT_accessToken";
-const JWTRefreshToken = "JWT.refreshToken";
-// (더미데이터 용) 실제는 꼭 Process.env에 암호화 시켜서 적용하기
+// 포트폴리오를 위해 .env 의도적으로 깃헙에 올림
 
 exports.verifyToken = (req, res, next) => {
   if (!req.headers.authorization) {
@@ -13,8 +11,8 @@ exports.verifyToken = (req, res, next) => {
   try {
     const data = jwt.verify(
       req.headers.authorization.replace("Bearer ", ""),
-      // process.env.ACCESS_TOKEN_SECRET
-      JWtAccessToken // (더미데이터 용) 실제는 꼭 위에 코드처럼 Process.env에 암호화 시켜서 적용하기
+      process.env.ACCESS_TOKEN_SECRET
+      // JWtAccessToken // (더미데이터 용) 실제는 꼭 위에 코드처럼 Process.env에 암호화 시켜서 적용하기
     );
     req.userid = data.userId;
     // res.locals.userid = data.userId;
@@ -43,8 +41,8 @@ exports.verifyRefreshToken = (req, res, next) => {
 
     const data = jwt.verify(
       req.headers.authorization.replace("Bearer ", ""),
-      // process.env.REFRESH_TOKEN_SECRET
-      JWTRefreshToken // (더미데이터 용) 실제는 꼭  위에 코드처럼 Process.env에 암호화 시켜서 적용하기
+      process.env.REFRESH_TOKEN_SECRET
+      // JWTRefreshToken // (더미데이터 용) 실제는 꼭  위에 코드처럼 Process.env에 암호화 시켜서 적용하기
     );
     req.userid = data.userId;
     res.locals.email = data.email;

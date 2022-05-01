@@ -1,3 +1,5 @@
+// 포트폴리오를 위해 .env 의도적으로 깃헙에 올림
+
 const express = require("express");
 const bcrypt = require("bcrypt");
 const { User, Post, Image, Comment, Notification } = require("../models");
@@ -5,17 +7,13 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { verifyToken, verifyRefreshToken } = require("./middlewares");
 
-const JWtAccessToken = "JWT_accessToken";
-const JWTRefreshToken = "JWT.refreshToken";
-// (더미데이터 용) 실제는 꼭 Process.env에 암호화 시켜서 적용하기 위에 코드처럼
-
 router.post("/refreshToken", verifyRefreshToken, async (req, res, next) => {
   try {
     const accessToken = jwt.sign(
       { sub: "access", email: res.locals.email, userId: req.userid },
 
-      // process.env.ACCESS_TOKEN_SECRET,
-      JWtAccessToken, // (더미데이터 용) 실제는 위에 코드처럼 꼭 Process.env에 암호화 시켜서 적용하기
+      process.env.ACCESS_TOKEN_SECRET,
+      // JWtAccessToken, // (더미데이터 용) 실제는 위에 코드처럼 꼭 Process.env에 암호화 시켜서 적용하기
       { expiresIn: "30m" }
       // { expiresIn: "30s" }
     );
@@ -48,8 +46,8 @@ router.post(
       const refreshToken = jwt.sign(
         //추가한 부분
         { sub: "refresh", email: res.locals.email, userId: req.userid },
-        // process.env.REFRESH_TOKEN_SECRET,
-        JWTRefreshToken, // (더미데이터 용) 실제는 위에 코드처럼 꼭 Process.env에 암호화 시켜서 적용하기
+        process.env.REFRESH_TOKEN_SECRET,
+        // JWTRefreshToken, // (더미데이터 용) 실제는 위에 코드처럼 꼭 Process.env에 암호화 시켜서 적용하기
         // { expiresIn: "60s" }
         { expiresIn: "24h" }
       );
@@ -98,15 +96,15 @@ router.post("/login", async (req, res, next) => {
 
     const accessToken = jwt.sign(
       { sub: "access", email: req.body.email, userId: user.id },
-      // process.env.ACCESS_TOKEN_SECRET,
-      JWtAccessToken, // (더미데이터 용) 실제는 위에 코드처럼 꼭 Process.env에 암호화 시켜서 적용하기
+      process.env.ACCESS_TOKEN_SECRET,
+      // JWtAccessToken, // (더미데이터 용) 실제는 위에 코드처럼 꼭 Process.env에 암호화 시켜서 적용하기
       { expiresIn: "30m" }
       // { expiresIn: "30s" }
     );
     const refreshToken = jwt.sign(
       { sub: "refresh", email: req.body.email, userId: user.id },
-      // process.env.REFRESH_TOKEN_SECRET,
-      JWTRefreshToken, // (더미데이터 용) 실제는 위에 코드처럼 꼭 Process.env에 암호화 시켜서 적용하기
+      process.env.REFRESH_TOKEN_SECRET,
+      // JWTRefreshToken, // (더미데이터 용) 실제는 위에 코드처럼 꼭 Process.env에 암호화 시켜서 적용하기
       { expiresIn: "24h" }
       // { expiresIn: "60s" }
     );
