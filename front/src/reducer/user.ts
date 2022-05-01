@@ -5,8 +5,6 @@ const initialState = {
   signupLoading: false, // 회원가입 시도중
   signupDone: false,
   signupError: null,
-  // accessToken: '',
-
   me: null,
   userInfo: null,
 
@@ -23,9 +21,6 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    // setAccessToken(state, action) {
-    //   state.accessToken = action.payload;
-    // },
     addPostToMe(state: any, action) {
       state.me.Posts.unshift({id: action.payload});
     },
@@ -60,7 +55,6 @@ const userSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loginLoading = false;
         state.me = action.payload.user;
-        // state.accessToken = action.payload.accessToken;
         state.loginDone = true;
       })
       .addCase(login.rejected, (state, action: any) => {

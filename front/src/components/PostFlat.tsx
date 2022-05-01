@@ -31,8 +31,6 @@ interface Props {
 const PostFlat = ({item}: Props) => {
   const navigation = useNavigation<NavigationProp<LoggedInParamList>>();
 
-  // console.log('item:', item);
-
   const createdAt = item?.createdAt;
 
   const day = dayjs(createdAt).fromNow();
@@ -94,18 +92,9 @@ const styles = StyleSheet.create({
     borderBottomColor: '#b0b4b8',
     flex: 1,
     marginRight: 3,
-    // marginLeft: 10,
-    // backgroundColor: 'lightblue',
   },
 
   first: {
-    // flexDirection: 'row',
-    // backgroundColor: 'lightblue',
-    // margin: 10,
-    // marginRight: 10,
-    // paddingLeft: 15,
-    // paddingRight: 10,
-    // paddingHorizontal: 10,
     paddingLeft: 10,
     paddingVertical: 10,
     flex: 5,
@@ -117,11 +106,8 @@ const styles = StyleSheet.create({
   },
 
   nickname: {
-    // color: '#47a877',
-    // color: '#66706f',
     color: 'black',
     fontSize: 16,
-    // fontWeight: '600',
   },
 
   day: {marginLeft: 10, fontSize: 13, color: '#959a9e', top: 1},
@@ -131,21 +117,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
     paddingTop: 15,
-    // marginTop: 7,
-    // backgroundColor: 'lightblue',
   },
 
   contentcon: {
     flex: 5,
-    // justifyContent: 'flex-end',
-    // backgroundColor: 'lightblue',
   },
 
   forth: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
-    // backgroundColor: 'lightblue',
     right: 10,
     flexDirection: 'row',
     top: 6,
@@ -156,11 +137,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'yellow',
   },
 
   likeicon: {
-    // marginRight: 4,
     right: 4,
   },
 
@@ -168,15 +147,10 @@ const styles = StyleSheet.create({
 
   imagecon: {
     flex: 1.4,
-    // backgroundColor: 'lightgreen',
-    // borderRadius: 20,
     justifyContent: 'center',
-    // alignItems: 'center',
   },
 
   Image: {
-    // backgroundColor: 'lightgreen',
-    // flex: 1,
     borderRadius: 15,
 
     height: Dimensions.get('window').height / 9,

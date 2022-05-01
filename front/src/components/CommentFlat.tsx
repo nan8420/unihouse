@@ -52,7 +52,6 @@ const CommentFlat = ({item}: Props) => {
   const liked1 = likeComment?.filter(v => v.CommentId === item.id);
   const liked = liked1?.find(v => v.UserId === myid);
 
-  // console.log('singlePost:', singlePost);
   useEffect(() => {
     if (liked) {
       setLike(true);
@@ -60,8 +59,6 @@ const CommentFlat = ({item}: Props) => {
   }, [liked]);
 
   const commentlikefunc = useCallback(() => {
-    console.log('commentlikefunc:');
-
     setLike(prev => !prev);
     // setLikelength(likelength + 1);
 
@@ -75,8 +72,6 @@ const CommentFlat = ({item}: Props) => {
 
     dispatch(commentUnLike({postId: item.PostId, commentId: item.id}));
   }, [dispatch, likelength]);
-
-  // console.log('liked:', liked);
 
   return (
     <View style={styles.maincon}>
@@ -130,21 +125,17 @@ const CommentFlat = ({item}: Props) => {
 
 const styles = StyleSheet.create({
   maincon: {
-    // backgroundColor: 'lightblue',
     marginTop: 20,
     marginHorizontal: 10,
     marginLeft: 15,
     borderBottomWidth: 0.3,
     borderColor: '#b0b4b8',
     paddingBottom: 20,
-    // flex: 1,
   },
 
   namedaycon: {
     flexDirection: 'row',
-    // justifyContent: 'center',
     alignItems: 'center',
-    // justifyContent: 'center',
   },
 
   name: {
@@ -157,21 +148,18 @@ const styles = StyleSheet.create({
   },
 
   contentcon: {
-    // backgroundColor: 'lightgreen',
     marginVertical: 10,
   },
 
   contenttxt: {},
 
   likecon: {
-    // backgroundColor: 'lightblue',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
 
   replylikecon: {
     flex: 1,
-    // backgroundColor: 'lightblue',
     flexDirection: 'row',
   },
 
@@ -191,7 +179,6 @@ const styles = StyleSheet.create({
 
   like2txt: {
     fontWeight: '500',
-    // color: 'red',
   },
 });
 

@@ -144,7 +144,7 @@ const AppInnger = () => {
             );
             originalRequest.headers.authorization = `Bearer ${data.data.accessToken}`;
             // 419로 요청 실패했던 요청 새로운 토큰으로 재요청
-            console.log('여기 갇힘!!!!!!!!');
+            // console.log('여기 갇힘!!!!!!!!');
             console.log('originalRequest::::', originalRequest);
             return axios(originalRequest);
           }

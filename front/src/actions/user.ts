@@ -6,7 +6,6 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 axios.defaults.baseURL = Config.API_URL;
 
 export const loadMyInfo = createAsyncThunk('user/loadMyInfo', async () => {
-  console.log('???????????????????????');
   const response = await axios.get('/user/loadMyinfo');
   return response.data;
 });

@@ -46,7 +46,6 @@ const Explain = () => {
   const route = useRoute<RouteProp<LoggedInParamList>>();
   const dispatch = useAppDispatch();
   const post = route.params?.item;
-  // console.log('route.params?.item:::', route.params?.item);
   const [dot, setDot] = useState(false);
   const [like, setLike] = useState(false);
   const [likelength, setLikelength] = useState(post?.Likers?.length);
@@ -122,8 +121,6 @@ const Explain = () => {
 
   const dots = true;
 
-  // console.log('post:', post);
-
   const dotfunc = useCallback(() => {
     setDot(prev => !prev);
     setModal(prev => !prev);
@@ -133,8 +130,6 @@ const Explain = () => {
     setDot(prev => !prev);
     setModal(prev => !prev);
   }, []);
-  // console.log('dot:::', dot);
-  // console.log('modal:::', modal);
 
   return (
     <View style={styles.wrapper}>
@@ -154,7 +149,6 @@ const Explain = () => {
           </View>
 
           {dot && (
-            // <View style={styles.modal}>
             <View style={styles.dotmodal}>
               <Pressable style={styles.remove} onPress={removefunc}>
                 <Text>삭제</Text>
@@ -164,7 +158,6 @@ const Explain = () => {
                 <Text>수정</Text>
               </Pressable>
             </View>
-            // </View>
           )}
 
           {post?.Images[0]?.src && (
@@ -200,9 +193,7 @@ const Explain = () => {
 
         <View style={styles.bottomcon} />
 
-        {/* <View style={styles.subject}> */}
         <Text style={styles.subjecttxt}>Comments</Text>
-        {/* </View> */}
 
         {singlePost?.Comments?.map(v => (
           <CommentFlat key={v.id} item={v} />
@@ -216,7 +207,6 @@ const Explain = () => {
           onChangeText={onChangeCommentinput}></TextInput>
         <Pressable style={styles.send} onPress={commetsubmitfun}>
           <Text style={{color: '#0373fc'}}>게시</Text>
-          {/* <Ionicons name="send" size={18} color="#ed3972"></Ionicons> */}
         </Pressable>
       </View>
       {modal && (
@@ -229,19 +219,13 @@ const Explain = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    // backgroundColor: 'lightblue',
   },
 
-  scrollviewcon: {
-    // marginBottom: 100,
-  },
+  scrollviewcon: {},
 
   first: {
-    // backgroundColor: 'lightblue',
     marginTop: 20,
     marginHorizontal: 15,
-
-    // height: Dimensions.get('window').height / 3,
   },
 
   abovecon: {
@@ -250,18 +234,11 @@ const styles = StyleSheet.create({
 
   namedaycon: {
     flex: 1,
-    // flexDirection: 'row',
-    // backgroundColor: 'lightgreen',
     paddingLeft: 10,
-    // left: 20,
-    // marginTop: 20,
-    // marginLeft: 20,
   },
 
   name: {
     fontSize: 16,
-    // fontWeight: '600',
-    // fontWeight: 'bold',
     color: 'black',
   },
 
@@ -272,7 +249,6 @@ const styles = StyleSheet.create({
   },
 
   modal: {
-    // backgroundColor: 'lightblue',
     backgroundColor: 'transparent',
     position: 'absolute',
     top: 0,
@@ -288,8 +264,6 @@ const styles = StyleSheet.create({
     top: -10,
     height: 75,
     right: 16,
-    // justifyContent: 'center',
-    // alignItems: 'center',s
     borderWidth: 0.5,
     borderColor: 'lightgray',
     borderRadius: 10,
@@ -298,7 +272,6 @@ const styles = StyleSheet.create({
 
   remove: {
     flex: 1,
-    // backgroundColor: 'lightblue',
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 0.3,
@@ -307,61 +280,44 @@ const styles = StyleSheet.create({
 
   adjust: {
     flex: 1,
-    // backgroundColor: 'lightgreen',
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   contentcon: {
     flex: 3,
-    // backgroundColor: '#b38dd9',
     marginLeft: 13,
     marginTop: 10,
     top: 10,
   },
 
-  contenttxt: {
-    // color: '#2c2a2e',
-  },
+  contenttxt: {},
 
   Imagecon: {
-    // backgroundColor: 'red',
-    // justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
   },
   Image: {
-    // flex: 1,
     height: Dimensions.get('window').height / 4,
     width: Dimensions.get('window').width / 1.1,
-    // resizeMode: 'contain',
-    // resizeMode: 'cover',
     borderRadius: 10,
     marginTop: 20,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // marginRight: 6,
   },
 
   likecommentcon: {
     flexDirection: 'row',
-    // alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    // backgroundColor: 'lightblue',
     paddingLeft: 10,
   },
 
   likecon: {
     justifyContent: 'center',
-    // alignItems: 'center',
     marginTop: 10,
     marginRight: 15,
     right: -8,
-    // backgroundColor: 'lightblue',
   },
 
   like: {
-    // color: '#ed3972',
     right: -4,
   },
 
@@ -377,7 +333,6 @@ const styles = StyleSheet.create({
   },
 
   subjecttxt: {
-    // backgroundColor: 'lightblue',
     color: '#444045',
     paddingLeft: 10,
     paddingTop: 10,
@@ -386,31 +341,21 @@ const styles = StyleSheet.create({
 
   inputcon: {
     backgroundColor: 'white',
-    // width: 100,
-    // height: 100,
     borderTopWidth: 0.4,
     borderColor: '#b0b4b8',
     height: Dimensions.get('window').height / 15,
-    // flex: 1,
-    // backgroundColor: 'lightblue',
     flexDirection: 'row',
   },
 
   input: {
     marginLeft: 5,
     flex: 8,
-    // backgroundColor: 'green',
-    // width: 100,
-    // height: Dimensions.get('window').height / 14,
   },
 
   send: {
     flex: 1.5,
     justifyContent: 'center',
     alignItems: 'center',
-    // width: 100,
-    // height: 100,
-    // backgroundColor: 'lightblue',
   },
 });
 

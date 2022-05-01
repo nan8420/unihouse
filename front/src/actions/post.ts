@@ -19,8 +19,6 @@ export const loadPosts = createAsyncThunk(
     try {
       // const response = await axios.get(`/post?lastId=${data?.lastId || 0}`);
       const response = await axios.get(`/post?lastId=${0}`);
-
-      // console.log('response:::', response);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -44,10 +42,7 @@ export const loadPost = createAsyncThunk(
   'post/loadPost',
   async (data: DataType, {rejectWithValue}) => {
     try {
-      // console.log('data:', data);
-      // console.log('typeof', typeof data.postId);
       const response = await axios.get(`/post/${data.postId}`);
-      // console.log('response:::', response);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -59,7 +54,6 @@ export const addPost = createAsyncThunk(
   'post/addPost',
   async (data: Object, thunkAPI) => {
     try {
-      console.log('data:', data);
       const accessToken = await EncryptedStorage.getItem('accessToken');
 
       const response = await axios.post('/post/addPost', data, {
@@ -70,7 +64,6 @@ export const addPost = createAsyncThunk(
         transformRequest: formData => formData,
       });
 
-      // console.log('response:', response);
       thunkAPI.dispatch(postSlice.actions.purePost());
 
       thunkAPI.dispatch(loadPosts());
@@ -87,10 +80,8 @@ export const likePost = createAsyncThunk(
   async (data: any, {rejectWithValue}) => {
     try {
       const response = await axios.patch(`/post/${data.postId}/like`); // PATCH /post/1/like
-      // console.log('response:', response);
       return response.data;
     } catch (error: any) {
-      // console.log('error:::', error);
       return rejectWithValue(error.response.data);
     }
   },
@@ -112,7 +103,6 @@ export const addComment = createAsyncThunk(
   'post/addComment',
   async (data: DataType, {rejectWithValue}) => {
     try {
-      // console.log('data:', data);
       const response = await axios.post(`/post/${data.postId}/comment`, data); // POST /post/1/comment
       return response.data;
     } catch (error: any) {
@@ -126,7 +116,6 @@ export const commentLike = createAsyncThunk(
   async (data: any, {rejectWithValue}) => {
     try {
       const response = await axios.patch(`/post/commentLike`, data); // PATCH /post/1/like
-      // console.log('response:', response);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

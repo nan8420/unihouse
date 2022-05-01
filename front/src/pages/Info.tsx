@@ -23,7 +23,6 @@ const Info = () => {
   const navigation = useNavigation<NavigationProp<LoggedInParamList>>();
 
   const logoutunf = useCallback(async () => {
-    console.log('logoutunf:::::::');
     const accesstoken = await EncryptedStorage.removeItem('accessToken');
 
     const refreshtoken = await EncryptedStorage.removeItem('refreshToken');
@@ -35,7 +34,6 @@ const Info = () => {
   }, [navigation, dispatch]);
 
   const getfunc = useCallback(async () => {
-    console.log('getfunc:::::::::');
     const refreshtoken = await EncryptedStorage.getItem('refreshToken');
 
     const accesstoken = await EncryptedStorage.getItem('refreshToken');
@@ -61,7 +59,6 @@ const Info = () => {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    // backgroundColor: 'lightblue',
     justifyContent: 'center',
     alignItems: 'center',
   },

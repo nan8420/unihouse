@@ -28,9 +28,6 @@ type PostListScreenProps = NativeStackScreenProps<
 const PostList = ({navigation}: PostListScreenProps) => {
   const dispatch = useAppDispatch();
   const {mainPosts} = useSelector((state: RootState) => state.post);
-  const {loadPostsLoading} = useSelector((state: RootState) => state.post);
-
-  // console.log('loadPostsLoading:', loadPostsLoading);
 
   useEffect(() => {
     dispatch(loadPosts());
@@ -63,12 +60,10 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
 
-    // backgroundColor: 'lightblue',
     marginBottom: 10,
   },
 
   gotoPost: {
-    // backgroundColor: '#77747a',
     position: 'absolute',
     width: Dimensions.get('window').width / 5,
     height: Dimensions.get('window').height / 18,
@@ -86,7 +81,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Zocial',
     fontSize: 18,
     fontWeight: '300',
-    // color: 'white',
   },
 });
 export default PostList;
