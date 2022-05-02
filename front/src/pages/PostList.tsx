@@ -20,6 +20,7 @@ import {loadPosts} from '../actions/post';
 import {useAppDispatch} from '../store';
 import Loading from '../components/Loading';
 import {maintypes} from '../reducer/post';
+import postSlice from '../reducer/post';
 type PostListScreenProps = NativeStackScreenProps<
   LoggedInParamList,
   'MainPage'
@@ -28,6 +29,10 @@ type PostListScreenProps = NativeStackScreenProps<
 const PostList = ({navigation}: PostListScreenProps) => {
   const dispatch = useAppDispatch();
   const {mainPosts} = useSelector((state: RootState) => state.post);
+
+  useEffect(() => {
+    dispatch(postSlice.actions.purePost());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(loadPosts());

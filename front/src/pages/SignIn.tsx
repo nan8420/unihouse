@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     color: '#575958',
     padding: 5,
     borderBottomWidth: 0.8,
+    // borderBottomWidth: 1,
     borderBottomColor: '#93edc6',
   },
   button: {

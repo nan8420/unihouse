@@ -298,10 +298,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   Image: {
-    height: Dimensions.get('window').height / 4,
+    // height: Dimensions.get('window').height / 4,
+    height: Dimensions.get('window').height / 3,
+
     width: Dimensions.get('window').width / 1.1,
     borderRadius: 10,
     marginTop: 20,
+    resizeMode: 'cover',
   },
 
   likecommentcon: {
@@ -319,6 +322,7 @@ const styles = StyleSheet.create({
 
   like: {
     right: -4,
+    color: 'red',
   },
 
   comment: {
@@ -345,6 +349,7 @@ const styles = StyleSheet.create({
     borderColor: '#b0b4b8',
     height: Dimensions.get('window').height / 15,
     flexDirection: 'row',
+    // borderBottomWidth: 0.5,
   },
 
   input: {
