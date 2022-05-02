@@ -1,6 +1,6 @@
 # 🌯 Unihouse
 
-# ![Unihouse](./front/uploads/postlist%20250-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.png) ![Unihouse](./front/uploads/postlistphone250%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.png)
+# ![Unihouse](./front/uploads/explain230%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.png) ![Unihouse](./front/uploads/postlist%20-%20copy%20230.png)
 
 ## 📜 설치 방법
 
