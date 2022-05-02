@@ -149,7 +149,6 @@ router.post("/signup", async (req, res, next) => {
       email: req.body.email,
       nickname: req.body.nickname,
       password: hashedPassword,
-      univ: req.body.univ,
     });
     res.status(201).send("ok");
   } catch (error) {

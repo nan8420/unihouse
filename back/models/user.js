@@ -17,7 +17,7 @@ module.exports = class User extends Model {
         },
         univ: {
           type: DataTypes.STRING(30),
-          allowNull: false, // 필수
+          allowNull: true, // 필수
         },
         password: {
           type: DataTypes.STRING(100),

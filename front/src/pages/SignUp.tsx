@@ -17,6 +17,7 @@ import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
 import DismissKeyboardView from '../components/DismissKeyboardView';
 import useInput from '../hooks/useInputtrim';
+import use from '../hooks/useInput';
 import {signup} from '../actions/user';
 import {useAppDispatch} from '../store';
 import {useSelector} from 'react-redux';
@@ -33,14 +34,14 @@ const SignUp = ({navigation}: SignUpScreenProps) => {
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordError, setPassworError] = useState(false);
 
-  const [nickname, onChangeNickname] = useInput('');
-  const [univ, onChangeUniv] = useInput('');
+  const [nickname, onChangeNickname] = use('');
+  // const [univ, onChangeUniv] = useInput('');
 
   const emailRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
   const passwordCheckRef = useRef<TextInput | null>(null);
   const nicknameRef = useRef<TextInput | null>(null);
-  const univRef = useRef<TextInput | null>(null);
+  // const univRef = useRef<TextInput | null>(null);
 
   const {signupError, signupLoading} = useSelector(
     (state: RootState) => state.user,
@@ -102,10 +103,10 @@ const SignUp = ({navigation}: SignUpScreenProps) => {
 
     console.log('비밀번호 맞음');
 
-    dispatch(signup({email, password, nickname, univ}));
+    dispatch(signup({email, password, nickname}));
 
     navigation.navigate('SignIn');
-  }, [email, password, passwordCheck, nickname, univ, dispatch, navigation]);
+  }, [email, password, passwordCheck, nickname, dispatch, navigation]);
 
   return (
     <View style={styles.first}>
@@ -184,7 +185,7 @@ const SignUp = ({navigation}: SignUpScreenProps) => {
               returnKeyType="next"
               clearButtonMode="while-editing"
               ref={nicknameRef}
-              onSubmitEditing={() => univRef.current?.focus()}
+              onSubmitEditing={onSubmit}
               blurOnSubmit={false}
             />
           </View>
