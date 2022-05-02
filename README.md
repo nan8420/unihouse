@@ -17,7 +17,7 @@ unihouse\front npm install
 ### BackEnd Sequelize Table Create
 
 ```sh
-unihouse\back npx Sequelize db:create
+unihouse\back npx sequelize db:create
 ```
 
 ### FrontEnd & BackEnd 서버 실행
