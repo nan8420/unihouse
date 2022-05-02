@@ -2,6 +2,10 @@
 
 # ![Unihouse](./front/uploads/signin%20-%20copy230.png) ![Unihouse](./front/uploads/post2%20copy457%20-.png) ![Unihouse](./front/uploads/post%20-copy457.png) ![Unihouse](./front/uploads/postlist%20-copy457.png) ![Unihouse](./front/uploads/explain%20-copy457.png)
 
+## 🧮 어플리케이션 소개
+
+Unihouse는 복잡함을 지양하고 미니멀리즘을 지향하는 목적으로 만들어진 SNS 어플입니다!
+
  </br>
 
 ## 🔧 코딩환경
