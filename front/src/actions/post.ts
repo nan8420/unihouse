@@ -17,8 +17,8 @@ export const loadPosts = createAsyncThunk(
   'post/loadPosts',
   async (data, thunkAPI) => {
     try {
-      // const response = await axios.get(`/post?lastId=${data?.lastId || 0}`);
-      const response = await axios.get(`/post?lastId=${0}`);
+      const response = await axios.get(`/post?lastId=${data?.lastId || 0}`);
+      // const response = await axios.get(`/post?lastId=${0}`);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -67,7 +67,6 @@ export const addPost = createAsyncThunk(
       thunkAPI.dispatch(postSlice.actions.purePost());
 
       thunkAPI.dispatch(loadPosts());
-      // thunkAPI.dispatch(userSlice.actions.addPostToMe(response.data.id));
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);

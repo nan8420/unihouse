@@ -1,20 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-  Dimensions,
-  Image,
-  SegmentedControlIOSBase,
-} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -22,19 +7,17 @@ import {commentLike, commentUnLike} from '../actions/post';
 import {useAppDispatch} from '../store/index';
 import {useSelector} from 'react-redux';
 import {RootState} from '../reducer/index';
-import {maintypes} from '../reducer/post';
+import {maintypes, IComment} from '../reducer/post';
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
 interface Props {
-  // item: maintypes;
-  item: any;
+  item: IComment;
 }
 
 const CommentFlat = ({item}: Props) => {
-  const {singlePost, likeComment} = useSelector(
-    (state: RootState) => state.post,
-  );
+  console.log('item:', item);
+  const {likeComment} = useSelector((state: RootState) => state.post);
   const myid = useSelector((state: maintypes | any) => state.user?.me?.id);
   const dispatch = useAppDispatch();
 

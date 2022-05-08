@@ -1,75 +1,21 @@
+const sendPostfunc = useCallback(async () => {
+  dispatch(addPost(formData));
 
+  navigation.navigate('PostList');
+}, [dispatch, navigation]);
 
+export const addPost = createAsyncThunk(
+  'post/addPost',
+  async (data: Object, thunkAPI) => {
+    try {
+      const response = await axios.post('/post/addPost', data);
 
-const home = () => {
-  return (
-    <View>
-    <Text>home</Text>
-</View>
-    )
-}
+      thunkAPI.dispatch(postSlice.actions.purePost());
 
-
-        const MainPage = () => {
-          return (
-            <Stack.Navigator>
-              <Stack.Screen
-                name="PostList"
-                component={PostList}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="Post"
-                component={Post}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="Explain"
-                component={Explain}
-                options={{
-                  headerShown: false,
-                }}
-              />
-            </Stack.Navigator>
-          );
-        };
-
-
-
-<Tab.Navigator>
-<Tab.Screen
-  name="MainPage"
-  component={MainPage}
-  options={{
-    headerShown: false,
-    tabBarStyle: {display: 'none'},
-
-    tabBarIcon: ({color}) => (
-      <FontAwesome5 name="list" size={20} style={{color}} />
-    ),
-    tabBarActiveTintColor: 'blue',
-  }}
-/>
-</Tab.Navigator>
-
-
-
-
-<Drawer.Navigator initialRouteName="Home">
-<Tab.Navigator>
-<Tab.Screen
-  name="MainPage"
-  component={MainPage}
-  options={{
-    headerShown: false,
-    tabBarStyle: {display: 'none'},
-
-    tabBarIcon: ({color}) => (
-      <FontAwesome5 name="list" size={20} style={{color}} />
-    ),
-    tabBarActiveTintColor: 'blue',
-  }}
-/>
-</Tab.Navigator>
-</Drawer.Navigator>
-
+      thunkAPI.dispatch(loadPosts());
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);

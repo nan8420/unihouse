@@ -26,14 +26,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useAppDispatch} from '../store';
-import {addPost} from '../actions/post';
+import {addPost, loadPosts} from '../actions/post';
 import useInput from '../hooks/useInput';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import DismissKeyboardView from '../components/DismissKeyboardView';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../AppInner';
 
-import {loadPosts} from '../actions/post';
 import postSlice from '../reducer/post';
 import {RootState} from '../reducer/index';
 type PostListScreenProps = NativeStackScreenProps<
@@ -101,7 +100,13 @@ const Post = ({navigation}: PostListScreenProps) => {
 
     formData.append('image', image);
     formData.append('content', content);
-    dispatch(addPost(formData));
+
+    const result = await dispatch(addPost(formData));
+
+    console.log('result:', result);
+    // dispatch(postSlice.actions.purePost());
+
+    // dispatch(loadPosts());
 
     navigation.navigate('PostList');
   }, [dispatch, image, content, navigation]);

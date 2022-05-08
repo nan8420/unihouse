@@ -37,7 +37,8 @@ const upload = multer({
 
 router.get("/", verifyToken, async (req, res, next) => {
   try {
-    console.log("loadposts");
+    console.log("loadposts!!!!!!!!!!!!!!!!!!!!1");
+    console.log("req.query.lastId:::", req.query.lastId);
     const where = {};
     if (parseInt(req.query.lastId, 10)) {
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
