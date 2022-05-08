@@ -90,27 +90,48 @@ const Post = ({navigation}: PostListScreenProps) => {
       .catch(console.log);
   }, [onResponse]);
 
+  // const sendPostfunc = useCallback(async () => {
+  //   if (!content || !content.trim()) {
+  //     Alert.alert('알림', '내용을 입력하세요!');
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+
+  //   formData.append('image', image);
+  //   formData.append('content', content);
+
+  //   const result = await dispatch(addPost(formData));
+
+  //   console.log('result:', result);
+  //   // dispatch(postSlice.actions.purePost());
+
+  //   // dispatch(loadPosts());
+
+  //   navigation.navigate('PostList');
+  // }, [dispatch, image, content, navigation]);
+
   const sendPostfunc = useCallback(async () => {
-    if (!content || !content.trim()) {
-      Alert.alert('알림', '내용을 입력하세요!');
-      return;
+    try {
+      if (!content || !content.trim()) {
+        Alert.alert('알림', '내용을 입력하세요!');
+        return;
+      }
+
+      const formData = new FormData();
+
+      formData.append('image', image);
+      formData.append('content', content);
+      const result = await dispatch(addPost(formData));
+      console.log('result:', result);
+      // dispatch(postSlice.actions.purePost());
+      // dispatch(loadPosts());
+      navigation.navigate('PostList');
+    } catch (error) {
+      console.error(error);
     }
-
-    const formData = new FormData();
-
-    formData.append('image', image);
-    formData.append('content', content);
-
-    const result = await dispatch(addPost(formData));
-
-    console.log('result:', result);
-    // dispatch(postSlice.actions.purePost());
-
-    // dispatch(loadPosts());
-
-    navigation.navigate('PostList');
   }, [dispatch, image, content, navigation]);
-  // const canimage = true;
+
   return (
     <View style={styles.first}>
       <View style={styles.abovecontainer}>
