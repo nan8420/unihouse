@@ -11,7 +11,7 @@ import {
 } from '../actions/post';
 
 export interface maintypes {
-  PostId: number;
+  // PostId: number;
 
   Comments: IComment[] | null;
   Images: IImage[] | null;

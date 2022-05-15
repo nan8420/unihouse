@@ -19,16 +19,18 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Config from 'react-native-config';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import {maintypes} from '../reducer/post';
 
 dayjs.locale('ko');
 
 dayjs.extend(relativeTime);
 
 interface Props {
-  item: any;
+  item: maintypes;
 }
 
 const PostFlat = ({item}: Props) => {
+  // console.log('item!:', item);
   const navigation = useNavigation<NavigationProp<LoggedInParamList>>();
 
   const createdAt = item?.createdAt;
