@@ -32,7 +32,7 @@ const PostList = ({navigation}: PostListScreenProps) => {
     (state: RootState) => state.post,
   );
 
-  console.log('mainPosts:', mainPosts);
+  // console.log('mainPosts:', mainPosts);
   // useEffect(() => {
   //   dispatch(postSlice.actions.purePost());
   // }, [dispatch]);
