@@ -79,6 +79,7 @@ export const likePost = createAsyncThunk(
   async (data: any, {rejectWithValue}) => {
     try {
       const response = await axios.patch(`/post/${data.postId}/like`); // PATCH /post/1/like
+      // console.log('response:::', response);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

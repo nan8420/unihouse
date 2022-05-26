@@ -6,14 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="ac5e1340-ad9c-461c-8f99-23ed3a12a0b5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/src/pages/PostList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/pages/PostList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/memo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/memo.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\nan84\.android\avd\Pixel_API_30.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[R3CM60A9HVY]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />

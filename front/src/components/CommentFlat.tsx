@@ -16,7 +16,7 @@ interface Props {
 }
 
 const CommentFlat = ({item}: Props) => {
-  console.log('item:', item);
+  // console.log('item:', item);
   const {likeComment} = useSelector((state: RootState) => state.post);
   const myid = useSelector((state: maintypes | any) => state.user?.me?.id);
   const dispatch = useAppDispatch();

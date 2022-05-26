@@ -191,6 +191,7 @@ router.patch("/:postId/like", verifyToken, async (req, res, next) => {
   try {
     // const post = await Post.findOne({ where: { id: req.params.postId } });
 
+    console.log("req.params.postId:", req.params.postId);
     const post = await Post.findOne({
       where: { id: req.params.postId },
       include: [

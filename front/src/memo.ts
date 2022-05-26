@@ -1,21 +1,12 @@
-const sendPostfunc = useCallback(async () => {
-  dispatch(addPost(formData));
+// item: {
+//   User: {
+//     id: 1;
+//     name: "Elon";
+//   };
 
-  navigation.navigate('PostList');
-}, [dispatch, navigation]);
+//   Comment: {
+//     content: 'helloword'
+//   }
+// }
 
-export const addPost = createAsyncThunk(
-  'post/addPost',
-  async (data: Object, thunkAPI) => {
-    try {
-      const response = await axios.post('/post/addPost', data);
-
-      thunkAPI.dispatch(postSlice.actions.purePost());
-
-      thunkAPI.dispatch(loadPosts());
-      return response.data;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.response.data);
-    }
-  },
-);
+navigation.navigate('Explain', {item: item});
